@@ -720,3 +720,4 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/qtcreator,clion,cmake,visualstudiocode,visualstudio,eclipse,vim,emacs,kate
 sprint1/samples/tcp-udp/build/
+sprint1/problems/radio/precode/build/
