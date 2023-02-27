@@ -50,9 +50,8 @@ StringResponse HandleRequest(StringRequest&& req) {
     switch (req.method())
     {
     case http::verb::get:
-        response_message = "<strong>Hello, ";
+        response_message = "Hello, ";
         response_message.append(target_text.erase(0, 1));
-        response_message.append("</strong>");
         response_status = http::status::ok;
         break;
     case http::verb::head:
