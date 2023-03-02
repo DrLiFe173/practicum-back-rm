@@ -31,6 +31,9 @@ StringResponse MakeStringResponse(http::status status, std::string_view body, un
                                   std::string_view content_type = ContentType::TEXT_HTML) {
     StringResponse response(status, http_version);
     response.set(http::field::content_type, content_type);
+    if (status == http::status::method_not_allowed) {
+        response.set(http::field::allow, "GET, HEAD"sv);
+    }
     response.body() = body;
     response.content_length(body.size());
     response.keep_alive(keep_alive);
@@ -38,8 +41,28 @@ StringResponse MakeStringResponse(http::status status, std::string_view body, un
 }
 
 StringResponse HandleRequest(StringRequest&& req) {
-    // Подставьте сюда код из синхронной версии HTTP-сервера
-    return MakeStringResponse(http::status::ok, "OK"sv, req.version(), req.keep_alive());
+    const auto text_response = [&req](http::status status, std::string_view text) {
+        return MakeStringResponse(status, text, req.version(), req.keep_alive());
+    };
+    http::status response_status;
+    std::string response_message;
+    std::string target_text(req.target());
+
+    switch (req.method())
+    {
+    case http::verb::get:
+        response_message = "Hello, ";
+        response_message.append(target_text.erase(0, 1));
+        response_status = http::status::ok;
+        break;
+    case http::verb::head:
+        response_status = http::status::ok;
+        break;
+    default:
+        response_status = http::status::method_not_allowed;
+        response_message = "Invalid method";
+    };
+    return text_response(response_status, response_message);
 }
 
 // Запускает функцию fn на n потоках, включая текущий
@@ -73,7 +96,7 @@ int main() {
     const auto address = net::ip::make_address("0.0.0.0");
     constexpr net::ip::port_type port = 8080;
     http_server::ServeHttp(ioc, {address, port}, [](auto&& req, auto&& sender) {
-        // sender(HandleRequest(std::forward<decltype(req)>(req)));
+        sender(HandleRequest(std::forward<decltype(req)>(req)));
     });
 
     // Эта надпись сообщает тестам о том, что сервер запущен и готов обрабатывать запросы
