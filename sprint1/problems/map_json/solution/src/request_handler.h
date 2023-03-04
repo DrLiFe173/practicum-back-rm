@@ -73,13 +73,13 @@ public:
                     for (auto road : requested_map->GetRoads()) {
                         model::Point start = road.GetStart();
                         json::object tempObj;
-                        tempObj["x0"] = std::to_string(start.x);
-                        tempObj["y0"] = std::to_string(start.y);
+                        tempObj["x0"] = start.x;
+                        tempObj["y0"] = start.y;
                         if (road.IsHorizontal()) {
-                            tempObj["x1"] = std::to_string(road.GetEnd().x);
+                            tempObj["x1"] = road.GetEnd().x;
                         }
                         else {
-                            tempObj["y1"] = std::to_string(road.GetEnd().y);
+                            tempObj["y1"] = road.GetEnd().y;
                         }
                         jsonArr.push_back(tempObj);
                     }
@@ -89,10 +89,10 @@ public:
                     for (auto building : requested_map->GetBuildings()) {
                         model::Rectangle bound = building.GetBounds();
                         json::object tempObj;
-                        tempObj["x"] = std::to_string(bound.position.x);
-                        tempObj["y"] = std::to_string(bound.position.y);
-                        tempObj["w"] = std::to_string(bound.size.width);
-                        tempObj["h"] = std::to_string(bound.size.height);
+                        tempObj["x"] = bound.position.x;
+                        tempObj["y"] = bound.position.y;
+                        tempObj["w"] = bound.size.width;
+                        tempObj["h"] = bound.size.height;
                         jsonArr.push_back(tempObj);
                     }
                     obj["buildings"] = jsonArr;
@@ -101,10 +101,10 @@ public:
                     for (auto office : requested_map->GetOffices()) {
                         json::object tempObj;
                         tempObj["id"] = *office.GetId();
-                        tempObj["x"] = std::to_string(office.GetPosition().x);
-                        tempObj["y"] = std::to_string(office.GetPosition().y);
-                        tempObj["offsetX"] = std::to_string(office.GetOffset().dx);
-                        tempObj["offsetY"] = std::to_string(office.GetOffset().dy);
+                        tempObj["x"] = office.GetPosition().x;
+                        tempObj["y"] = office.GetPosition().y;
+                        tempObj["offsetX"] = office.GetOffset().dx;
+                        tempObj["offsetY"] = office.GetOffset().dy;
                         jsonArr.push_back(tempObj);
                     }
                     obj["offices"] = jsonArr;
