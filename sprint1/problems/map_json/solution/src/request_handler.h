@@ -38,7 +38,7 @@ public:
         std::string response_message;
         std::string target_text(req.target());
 
-        if (target_text.find("/api/") != 0) {                       // условие если нет /api/ части - 400 badRequest
+        if (target_text.find("/api/v1/") != 0) {                       // условие если нет /api/ части - 400 badRequest
             response_status = http::status::bad_request;
             json::object obj;
             obj["code"] = "badRequest";
