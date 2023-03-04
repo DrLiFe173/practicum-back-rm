@@ -18,7 +18,8 @@ model::Game LoadGame(const std::filesystem::path& json_path) {
     // Загрузить модель игры из файла
     model::Game game;
     //std::string filePath = "../../data/";
-    std::ifstream file(filePath.append(json_path.string()));
+    //std::ifstream file(filePath.append(json_path.string()));
+    std::ifstream file(json_path.string());
     std::string jsonString;
     if (!file)
     {
