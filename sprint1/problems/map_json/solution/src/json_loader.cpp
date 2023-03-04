@@ -17,7 +17,7 @@ model::Game LoadGame(const std::filesystem::path& json_path) {
     // Распарсить строку как JSON, используя boost::json::parse
     // Загрузить модель игры из файла
     model::Game game;
-    std::string filePath = "../../data/";
+    //std::string filePath = "../../data/";
     std::ifstream file(filePath.append(json_path.string()));
     std::string jsonString;
     if (!file)
