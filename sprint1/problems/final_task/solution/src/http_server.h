@@ -144,8 +144,7 @@ namespace http_server {
         }
 
         // Метод socket::async_accept создаст сокет и передаст его передан в OnAccept
-        void OnAccept(sys::error_code ec, tcp::socket socket) {
-            using namespace std::literals;
+        void OnAccept(sys::error_code ec, tcp::socket socket) { 
 
             if (ec) {
                 return ReportError(ec, "accept"sv);

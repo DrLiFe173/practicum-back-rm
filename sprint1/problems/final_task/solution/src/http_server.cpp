@@ -41,7 +41,6 @@ namespace http_server {
 	};
 
 	void SessionBase::OnRead(beast::error_code ec, [[maybe_unused]] std::size_t bytes_read) {
-		using namespace std::literals;
 		if (ec == http::error::end_of_stream) {
 			// Нормальная ситуация - клиент закрыл соединение
 			return Close();
