@@ -29,8 +29,7 @@ namespace http_server {
 		Read();
 	};
 
-	void SessionBase::Read() {
-		using namespace std::literals;
+	void SessionBase::Read() {		
 		// Очищаем запрос от прежнего значения (метод Read может быть вызван несколько раз)
 		request_ = {};
 		stream_.expires_after(30s);
