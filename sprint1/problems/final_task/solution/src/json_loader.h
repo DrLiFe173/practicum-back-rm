@@ -9,8 +9,6 @@ namespace json_loader {
 
 namespace json = boost::json;
 
-json::value GetObjectValue(const std::string& key, const json::object& object);
-
 model::Road GetRoad(const json::object& roadCords);
 
 model::Building GetBuilding(const json::object& buildingCords);

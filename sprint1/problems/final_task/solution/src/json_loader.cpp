@@ -10,48 +10,35 @@ namespace json_loader {
 
     using namespace std::literals;
 
-    json::value GetObjectValue(const std::string& key, const json::object& object) {
-        json::value value;
-        for (auto iter = object.begin(); iter != object.end(); iter++)
-        {
-            if (iter->key() == key)
-            {
-                value = iter->value();
-                break;
-            }
-        }
-        return value;
-    }
-
     model::Road GetRoad(const json::object& roadCords) {
-        json::value coord_x0, coord_y0, coord_x1, coord_y1;
+        int64_t coord_x0, coord_y0;
 
-        coord_x0 = GetObjectValue("x0"s, roadCords);
-        coord_y0 = GetObjectValue("y0"s, roadCords);
-        coord_x1 = GetObjectValue("x1"s, roadCords);
-        coord_y1 = GetObjectValue("y1"s, roadCords);
+        coord_x0 = roadCords.at("x0"s).as_int64(); 
+        coord_y0 = roadCords.at("y0"s).as_int64();
 
-        model::Point point(coord_x0.as_int64(), coord_y0.as_int64());
-        if (coord_y1.is_null()) {
-            model::Road road = { model::Road::HORIZONTAL , point, coord_x1.as_int64()};
+        model::Point point(coord_x0, coord_y0);
+        if (roadCords.if_contains("x1"s) != NULL) {
+            int64_t coord_x1 = roadCords.at("x1"s).as_int64();
+            model::Road road = { model::Road::HORIZONTAL , point, coord_x1};
             return road;
         }
         else {
-            model::Road road = { model::Road::VERTICAL , point, coord_y1.as_int64() };
+            int64_t coord_y1 = roadCords.at("y1"s).as_int64();
+            model::Road road = { model::Road::VERTICAL , point, coord_y1 };
             return road;
         }
     }
 
     model::Building GetBuilding(const json::object& buildingCords) {
-        json::value coord_x, coord_y, width, height;
+        int64_t coord_x, coord_y, width, height;
 
-        coord_x = GetObjectValue("x"s, buildingCords);
-        coord_y = GetObjectValue("y"s, buildingCords);
-        width = GetObjectValue("w"s, buildingCords);
-        height = GetObjectValue("h"s, buildingCords);
+        coord_x = buildingCords.at("x"s).as_int64();
+        coord_y = buildingCords.at("y"s).as_int64();
+        width = buildingCords.at("w"s).as_int64();
+        height = buildingCords.at("h"s).as_int64();
 
-        model::Point point(coord_x.as_int64(), coord_y.as_int64());
-        model::Size size(width.as_int64(), height.as_int64());
+        model::Point point(coord_x, coord_y);
+        model::Size size(width, height);
         model::Rectangle rect(point, size);
         model::Building building(rect);
         return building;
@@ -59,16 +46,16 @@ namespace json_loader {
 
     model::Office GetOffice(const json::object& officeCords) {
         std::string id;
-        json::value coord_x, coord_y, offsetX, offsetY;
-        coord_x = GetObjectValue("x"s, officeCords);
-        coord_y = GetObjectValue("y"s, officeCords);
-        offsetX = GetObjectValue("offsetX"s, officeCords);
-        offsetY = GetObjectValue("offsetY"s, officeCords);
-        id = GetObjectValue("id"s, officeCords).as_string();
+        int64_t coord_x, coord_y, offsetX, offsetY;
+        coord_x = officeCords.at("x"s).as_int64();
+        coord_y = officeCords.at("y"s).as_int64();
+        offsetX = officeCords.at("offsetX"s).as_int64();
+        offsetY = officeCords.at("offsetY"s).as_int64();
+        id = officeCords.at("id"s).as_string();
 
         model::Office::Id officeID{ id };
-        model::Point point(coord_x.as_int64(), coord_y.as_int64());
-        model::Offset offset(offsetX.as_int64(), offsetY.as_int64());
+        model::Point point(coord_x, coord_y);
+        model::Offset offset(offsetX, offsetY);
         model::Office office(officeID, point, offset);
         return office;
     }
