@@ -138,6 +138,7 @@ public:
     }
 
     bool IsFileExist(const std::string& path) {
+        std::cout << "Path "sv << path << std::endl; //Debug
         return std::filesystem::exists(path);
     }
 

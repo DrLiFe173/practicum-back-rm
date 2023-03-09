@@ -11,7 +11,7 @@ namespace http_handler {
     }
 
     bool RequestHandler::IsApiVersionCorrect(const std::string requestTarget) {
-        return requestTarget.find_first_of("/v1/"sv) <= requestTarget.size() ? true : false;
+        return requestTarget.substr(4, 4) == "/v1/"sv ? true : false;
     }
 
     bool RequestHandler::IsInFileRootFolder(const std::string& file_path) {
@@ -139,6 +139,7 @@ namespace http_handler {
             else {
                 status = http::status::bad_request;
                 CreateErrorResponce(body, "badRequest", "Bad request");
+                response.set(http::field::content_type, ContentType::APP_JSON);
             }
         }
         else {
