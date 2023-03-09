@@ -138,13 +138,13 @@ public:
     }
 
     bool IsFileExist(const std::string& path) {
-        std::cout << "Path "sv << path << std::endl; //Debug
         return std::filesystem::exists(path);
     }
 
     void SetRootFolderPath(const char* path) {
-        fileRootFolder = "../";
-        fileRootFolder.append(path);
+        //fileRootFolder = "../";
+        //fileRootFolder.append(path);
+        fileRootFolder = path;
     }
 
 private:
