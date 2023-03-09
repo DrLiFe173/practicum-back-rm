@@ -317,13 +317,15 @@ namespace http_handler {
 
     std::string RequestHandler::GetFilePath(const std::string& requestTarget) {
 
-        //auto static_folder_path = std::filesystem::current_path().append(fileRootFolder);
-        //auto base_path = std::filesystem::weakly_canonical(static_folder_path); // получаем путь до папки с файлами для отдачи
         auto base_path = std::filesystem::weakly_canonical(fileRootFolder);
 
         auto temp_path = base_path;
         temp_path.concat(requestTarget);
         auto res_path = std::filesystem::weakly_canonical(temp_path);
+        
+        if (requestTarget == "/") {
+            res_path.append("index.html");
+        }
 
         return res_path.string();
     }

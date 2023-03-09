@@ -142,8 +142,6 @@ public:
     }
 
     void SetRootFolderPath(const char* path) {
-        //fileRootFolder = "../";
-        //fileRootFolder.append(path);
         fileRootFolder = path;
     }
 
