@@ -54,25 +54,32 @@ public:
         return obj;
     }
 
-    void Log() {   
-        std::lock_guard lg(m_);
-        std::string s = oss.str();
-        std::string file_name = log_path;
-        file_name.append("sample_log_"s);
-        file_name.append(GetFileTimeStamp());
-        file_name.append(".log"s);
-        log_file_.open(file_name, std::ios::app);
-        log_file_ << GetStringTimeStamp() << ": "s << s << '\n';
-        log_file_.close();
-        oss.str("");
-        oss.clear();        
+    template<typename T, typename... Ts>
+    std::string R(const T& value) {  
+        std::ostringstream oss;
+        oss << value;
+        return oss.str();
     }
 
     // Выведите в поток все аргументы.
     template<typename T, typename... Ts>
-    void Log(const T& value, const Ts&... args) {
-        oss << value;
-        Log(args...);
+    std::string R(const T& value, const Ts&... args) {
+        std::string log_string = R(value);
+        log_string += R(args...);
+        return log_string;
+    }
+
+    template<typename... Ts>
+    void Log(const Ts&... args) {
+        std::string log_string = R(args...);
+        std::string file_name = log_path;
+        std::lock_guard lg(m_);
+        file_name.append("sample_log_"s);
+        file_name.append(GetFileTimeStamp());
+        file_name.append(".log"s);
+        log_file_.open(file_name, std::ios::app);
+        log_file_ << GetStringTimeStamp() << ": "s << log_string << '\n';
+        log_file_.close();
     }
 
     // Установите manual_ts_. Учтите, что эта операция может выполняться
@@ -85,7 +92,6 @@ public:
 
 private:
     std::optional<std::chrono::system_clock::time_point> manual_ts_;
-    std::ostringstream oss;
     std::ofstream log_file_;
     std::string log_path = "/var/log/"; 
     std::mutex m_;   
