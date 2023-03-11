@@ -87,6 +87,6 @@ private:
     std::optional<std::chrono::system_clock::time_point> manual_ts_;
     std::ostringstream oss;
     std::ofstream log_file_;
-    std::string log_path = "/var/log"; 
+    std::string log_path = "/var/log/"; 
     std::mutex m_;   
 };
