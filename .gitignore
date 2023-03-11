@@ -729,3 +729,5 @@ sprint1/problems/async_server/solution/build/
 sprint1/problems/map_json/solution/build/
 sprint1/problems/final_task/solution/build/
 sprint2/problems/static_content/solution/build/
+sprint2/problems/logger/solution/build/
+sprint2/problems/logger/solution/main.cpp
