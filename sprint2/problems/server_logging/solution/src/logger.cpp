@@ -9,7 +9,6 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/date_time.hpp>
 #include <boost/log/utility/manipulators/add_value.hpp> 
-//#include <boost/json.hpp>
  
 using namespace std::literals;
 namespace logging = boost::log;
@@ -32,10 +31,6 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
                 strm << "\"data\":" << rec[additional_data] << ",";
                 strm << "\"message\":\"" << rec[expr::smessage] << "\"}"; 
             });
-    }
-
-    void Logger::Log(boost::json::value& json, std::string& message) {
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json) << message;
     }
 
     void Logger::LogRequest(std::string& ip, std::string& uri, std::string& method) {
