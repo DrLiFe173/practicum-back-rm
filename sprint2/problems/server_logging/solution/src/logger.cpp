@@ -48,7 +48,7 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
         json["ip"] = ip;
         json["response_time"] = time;
         json["code"] = code;
-        json["method"] = content_type;
+        json["content_type"] = content_type;
         boost::json::value json_value = json;
         std::string message = "response sent"s;
         BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json_value) << message;

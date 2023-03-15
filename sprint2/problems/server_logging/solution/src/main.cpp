@@ -61,7 +61,6 @@ int main(int argc, const char* argv[]) {
         // 5. Запустить обработчик HTTP-запросов, делегируя их обработчику запросов
         const auto address = net::ip::make_address("0.0.0.0");
         constexpr net::ip::port_type port = 8080;
-        //http_handler::LoggingRequestHandler logging_handler{ handler }; //TODO
         http_server::ServeHttp(ioc, {address, port}, [&handler](auto&& req, auto&& send) {
             handler(std::forward<decltype(req)>(req), std::forward<decltype(send)>(send));
         });
@@ -75,7 +74,6 @@ int main(int argc, const char* argv[]) {
             ioc.run();
         });
     } catch (const std::exception& ex) {
-        //std::cerr << ex.what() << std::endl;
         std::string exception{ ex.what() };
         Logger::LogServerStop(EXIT_FAILURE, exception);
         return EXIT_FAILURE;

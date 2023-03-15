@@ -289,7 +289,7 @@ namespace http_handler {
 
         http::file_body::value_type file;
         if (boost::system::error_code ec; file.open(file_path.c_str(), beast::file_mode::read, ec), ec) {
-            std::cout << "Failed to open file "sv << file_path << std::endl;
+            //std::cout << "Failed to open file "sv << file_path << std::endl;
         }
         response.body() = std::move(file);
         response.prepare_payload();
