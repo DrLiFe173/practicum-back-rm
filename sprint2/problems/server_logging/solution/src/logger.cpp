@@ -23,14 +23,14 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
         logging::add_common_attributes();
         logging::add_console_log(
             std::clog,
-            keywords::auto_flush = true,
             boost::log::keywords::format = [](logging::record_view const& rec, logging::formatting_ostream& strm) 
             {
                 auto ts = *rec[timestamp];
                 strm << "{\"timestamp\":\"" << to_iso_extended_string(ts) << "\",";
                 strm << "\"data\":" << rec[additional_data] << ",";
                 strm << "\"message\":\"" << rec[expr::smessage] << "\"}"; 
-            });
+            },
+            keywords::auto_flush = true);
     }
 
     void Logger::LogRequest(std::string& ip, std::string& uri, std::string& method) {
