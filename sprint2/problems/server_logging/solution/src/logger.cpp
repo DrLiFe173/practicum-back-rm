@@ -24,7 +24,7 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
         logging::add_common_attributes();
         logging::add_console_log(
             std::cout,
-            //keywords::auto_flush = true,
+            keywords::auto_flush = true,
             boost::log::keywords::format = [](logging::record_view const& rec, logging::formatting_ostream& strm) 
             {
                 auto ts = *rec[timestamp];
