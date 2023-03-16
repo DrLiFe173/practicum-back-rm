@@ -65,26 +65,6 @@ struct ContentType {
     constexpr static std::string_view XML               = ".xml"sv;
 };
 
-/*template<class SomeRequestHandler>
-class LoggingRequestHandler {
-    //static void LogRequest(const Request& r);
-    //static void LogResponse(const Response& r);
-    explicit RequestHandler(RequestHandler& request_handler){
-    }
-public:
-    template <typename Body, typename Allocator, typename Send>
-    Response operator () (http::request<Body, http::basic_fields<Allocator>>&& req) {
-        //LogRequest(req);
-        Response resp = decorated_(std::move(req));
-        //LogResponse(resp);
-        return resp;
-    }
-
-private:
-    SomeRequestHandler& decorated_;
-};*/
-
-
 class RequestHandler {
 public:
     explicit RequestHandler(model::Game& game)

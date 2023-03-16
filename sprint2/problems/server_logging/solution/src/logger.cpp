@@ -16,7 +16,7 @@ namespace keywords = boost::log::keywords;
 namespace expr = boost::log::expressions;
  
 BOOST_LOG_ATTRIBUTE_KEYWORD(timestamp, "TimeStamp", boost::posix_time::ptime)
-BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::value)
+BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::object)
  
     void Logger::SetupLogger()
     {
@@ -32,15 +32,17 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
             },
             keywords::auto_flush = true);
     }
+    void Logger::Log(boost::json::object& json, std::string& message) {
+        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json) << message;
+    }
 
     void Logger::LogRequest(std::string& ip, std::string& uri, std::string& method) {
         boost::json::object json;
         json["ip"] = ip;
         json["URI"] = uri;
         json["method"] = method;
-        boost::json::value json_value = json;
         std::string message = "request received"s;
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json_value) << message;
+        Log(json, message);
     }
 
     void Logger::LogResponse(std::string& ip, long long time, int code, std::string& content_type) {
@@ -49,35 +51,31 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
         json["response_time"] = time;
         json["code"] = code;
         json["content_type"] = content_type;
-        boost::json::value json_value = json;
         std::string message = "response sent"s;
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json_value) << message;
+        Log(json, message);
     }
 
     void Logger::LogServerStop(int code, std::string& exception) {
         boost::json::object json;
         json["code"] = code;
-        json["exception"] = exception;        
-        boost::json::value json_value = json;
+        json["exception"] = exception;
         std::string message = "server exited"s;
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json) << message;
+        Log(json, message);
     }
 
     void Logger::LogServerStop(int code) {
         boost::json::object json;
         json["code"] = code;
-        boost::json::value json_value = json;
         std::string message = "server exited"s;
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json) << message;
+        Log(json, message);
     }
 
     void Logger::LogServerStart(int port, std::string& address) {
         boost::json::object json;
         json["port"] = port;
         json["address"] = address;
-        boost::json::value json_value = json;
         std::string message = "server started"s;
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json) << message;
+        Log(json, message);        
     }
 
     void Logger::LogWebError(int code, std::string& exception, std::string& where) {
@@ -85,7 +83,14 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::valu
         json["code"] = code;
         json["exception"] = exception;
         json["where"] = where;
-        boost::json::value json_value = json;
         std::string message = "error"s;
-        BOOST_LOG_TRIVIAL(info) << logging::add_value(additional_data, json) << message;
+        Log(json, message);
+    }
+
+    void Logger::LogServerError(std::string& exception, std::string& where) {
+        boost::json::object json;
+        json["exception"] = exception;
+        json["where"] = where;
+        std::string message = "error"s;
+        Log(json, message);
     }

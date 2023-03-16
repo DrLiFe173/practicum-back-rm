@@ -67,11 +67,8 @@ model::Game LoadGame(const std::filesystem::path& json_path) {
     model::Game game;
     std::ifstream file(json_path.string());
     std::string jsonString;
-    if (!file)
+    if (file)
     {
-        //std::cout << "Can't open JSON file "sv << json_path << std::endl;
-    }
-    else {
         while (file)
         {
             std::string strInput;
