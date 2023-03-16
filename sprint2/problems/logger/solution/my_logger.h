@@ -55,7 +55,7 @@ public:
     }
 
     template<typename T, typename... Ts>
-    std::string R(const T& value) {  
+    std::string MakeLogString(const T& value) {
         std::ostringstream oss;
         oss << value;
         return oss.str();
@@ -63,15 +63,15 @@ public:
 
     // Выведите в поток все аргументы.
     template<typename T, typename... Ts>
-    std::string R(const T& value, const Ts&... args) {
-        std::string log_string = R(value);
-        log_string += R(args...);
+    std::string MakeLogString(const T& value, const Ts&... args) {
+        std::string log_string = MakeLogString(value);
+        log_string += MakeLogString(args...);
         return log_string;
     }
 
     template<typename... Ts>
     void Log(const Ts&... args) {
-        std::string log_string = R(args...);
+        std::string log_string = MakeLogString(args...);
         std::string file_name = log_path;
         std::lock_guard lg(m_);
         file_name.append("sample_log_"s);
@@ -93,6 +93,7 @@ public:
 private:
     std::optional<std::chrono::system_clock::time_point> manual_ts_;
     std::ofstream log_file_;
-    std::string log_path = "/var/log/"; 
+    //std::string log_path = "/var/log/";
+    std::string log_path = "C:\\Users\\rybal\\cpp-backend\\sprint2\\problems\\logger\\solution\\log\\";
     std::mutex m_;   
 };
