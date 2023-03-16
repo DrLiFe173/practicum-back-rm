@@ -33,7 +33,8 @@ void RunWorkers(unsigned n, const Fn& fn) {
 
 int main(int argc, const char* argv[]) {
     if (argc != 3) {
-        std::cerr << "Usage: game_server <game-config-json>"sv << std::endl;
+        std::string exception{ "Usage: game_server <game-config-json>"sv };
+        Logger::LogServerStop(EXIT_FAILURE, exception);
         return EXIT_FAILURE;
     }
     try {
