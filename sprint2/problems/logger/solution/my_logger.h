@@ -93,7 +93,7 @@ public:
 private:
     std::optional<std::chrono::system_clock::time_point> manual_ts_;
     std::ofstream log_file_;
-    //std::string log_path = "/var/log/";
-    std::string log_path = "C:\\Users\\rybal\\cpp-backend\\sprint2\\problems\\logger\\solution\\log\\";
+    std::string log_path = "/var/log/";
+    //std::string log_path = "C:\\Users\\rybal\\cpp-backend\\sprint2\\problems\\logger\\solution\\log\\"; // Just for local testing debug folder
     std::mutex m_;   
 };
