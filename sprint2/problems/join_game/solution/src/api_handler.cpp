@@ -82,9 +82,10 @@ namespace http_handler {
         }
     }
 
-    StringResponse ApiRequestHandler::ProceedJoinGameRequest(json::value& jsonValue)
+    StringResponse ApiRequestHandler::ProceedJoinGameRequest(std::string& body)
     {
         try {
+            auto jsonValue = json::parse(body);
             std::string mapId = jsonValue.as_object().at("mapId"s).as_string().data();
             std::string userName = jsonValue.as_object().at("userName"s).as_string().data();
             model::Map::Id id{ mapId };

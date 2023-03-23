@@ -75,8 +75,8 @@ namespace http_handler {
                     }
                     else if (IsJoinGameRequest(decoded_request)) {                                              
                         if (req.method_string() == MiscMessage::ALLOWED_POST_METHOD) {
-                            auto jsonValue = json::parse(req.body());
-                            response = ProceedJoinGameRequest(jsonValue);                           
+                            std::string body = req.body();
+                            response = ProceedJoinGameRequest(body);
                         }
                         else {
                             response = Response::MakeMethodNotAllowed(ErrorMessage::POST_IS_EXPECTED, MiscMessage::ALLOWED_POST_METHOD);
@@ -111,7 +111,7 @@ namespace http_handler {
 
 		void AddMapInfo(std::string& body, std::string& mapId);
 
-        StringResponse ProceedJoinGameRequest(json::value& jsonValue);
+        StringResponse ProceedJoinGameRequest(std::string& body);
 
         StringResponse ProceedPlayerListRequest(std::string_view& token);
 
