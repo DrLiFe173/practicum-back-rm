@@ -82,8 +82,10 @@ namespace http_handler {
         }
     }
 
-    StringResponse ApiRequestHandler::ProceedJoinGameRequest(json::value& jsonValue)
-    {       
+    StringResponse ApiRequestHandler::ProceedJoinGameRequest(std::string& body)
+    {
+        try {
+            auto jsonValue = json::parse(body);
             std::string mapId = jsonValue.as_object().at("mapId"s).as_string().data();
             std::string userName = jsonValue.as_object().at("userName"s).as_string().data();
             model::Map::Id id{ mapId };
@@ -118,6 +120,11 @@ namespace http_handler {
             else {
                 return Response::MakeJSON(http::status::not_found, ErrorCode::MAP_NOT_FOUND, ErrorMessage::MAP_NOT_FOUND);
             }
+        }
+        catch (...)
+        {
+            return Response::MakeBadRequestInvalidArgument(ErrorMessage::PARSE_ERROR);
+        }
     }
 
     StringResponse ApiRequestHandler::ProceedPlayerListRequest(std::string_view& tokenValue)
