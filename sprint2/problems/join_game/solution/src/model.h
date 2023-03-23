@@ -251,15 +251,13 @@ public:
     }
 
     std::string GenerateToken() {
-        /*std::stringstream ss;
-        ss << std::hex << generator1_();
-        ss << std::hex << generator2_();
-        std::string result = ss.str();*/
         auto i1 = generator1_();
         auto i2 = generator2_();
         std::string result = (boost::format("%x") % i1).str();
         result.append((boost::format("%x") % i2).str());
-
+        if (result.size() == 31) {                          // если при генерации токена получаем строку в 31 символ - добавляем еще 1 чтобы получить 32
+                result.append("0");
+        }
         return result;
     }
 
