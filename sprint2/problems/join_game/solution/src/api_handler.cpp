@@ -85,40 +85,39 @@ namespace http_handler {
     StringResponse ApiRequestHandler::ProceedJoinGameRequest(std::string& body)
     {
         try {
-            auto jsonValue = json::parse(body);
-            std::string mapId = jsonValue.as_object().at("mapId"s).as_string().data();
-            std::string userName = jsonValue.as_object().at("userName"s).as_string().data();
-            model::Map::Id id{ mapId };
-            auto requested_map = game_.FindMap(id);
-            if (requested_map != nullptr) {
-                if (userName.size() != 0) {
+            auto jsonValue = json::parse(body);            
+            std::string userName = jsonValue.as_object().at("userName"s).as_string().data();      
+            if (userName.size() != 0) {
+                std::string mapId = jsonValue.as_object().at("mapId"s).as_string().data();
+                model::Map::Id id{ mapId };
+                auto requested_map = game_.FindMap(id);
+                if (requested_map != nullptr) {
                     std::string token = game_.GetPlayerTokens().GenerateToken();
                     auto existedSession = game_.FindGameSession(id);
                     std::uint64_t playerId;
                     model::Dog dog(userName);
-                    if (existedSession != nullptr) {                        
+                    if (existedSession != nullptr) {
                         playerId = existedSession->GetLastDogIndex();
                         existedSession->AddDog(dog);
                         model::Player player(existedSession, playerId);
                         game_.GetPlayerTokens().AddPlayer(token, player);
                     }
                     else {
-                        model::GameSession session(requested_map);                        
+                        model::GameSession session(requested_map);
                         playerId = session.GetLastDogIndex();
                         session.AddDog(dog);
                         game_.AddGameSession(session);
                         model::Player player(game_.FindGameSession(id), playerId);
                         game_.GetPlayerTokens().AddPlayer(token, player);
-                    }                               
-
+                    }
                     return Response::MakeJoinGame(token, playerId);
                 }
                 else {
-                    return Response::MakeJSON(http::status::bad_request, ErrorCode::INVALID_ARGUMENT, ErrorMessage::INVALID_NAME);
+                    return Response::MakeJSON(http::status::not_found, ErrorCode::MAP_NOT_FOUND, ErrorMessage::MAP_NOT_FOUND);
                 }
             }
             else {
-                return Response::MakeJSON(http::status::not_found, ErrorCode::MAP_NOT_FOUND, ErrorMessage::MAP_NOT_FOUND);
+                return Response::MakeJSON(http::status::bad_request, ErrorCode::INVALID_ARGUMENT, ErrorMessage::INVALID_NAME);
             }
         }
         catch (...)
@@ -132,16 +131,21 @@ namespace http_handler {
         if (!tokenValue.empty())
         {
             std::string tokenTmp{ tokenValue };
-            std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
-            
-            if (game_.GetPlayerTokens().IsTokenExist(token)) {
-                boost::json::object json;
-                std::map<std::string, std::string> players;
-                game_.GetPlayerTokens().FindPlayersBy(token, json, players);
-                return Response::MakePlayersByToken(players);
+            if (tokenTmp.size() >= TokenMessage::BEARER.size()) {
+                std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
+
+                if (game_.GetPlayerTokens().IsTokenExist(token)) {
+                    boost::json::object json;
+                    std::map<std::string, std::string> players;
+                    game_.GetPlayerTokens().FindPlayersBy(token, json, players);
+                    return Response::MakePlayersByToken(players);
+                }
+                else {
+                    return Response::MakeJSON(http::status::unauthorized, ErrorCode::UNKNOWN_TOKEN, ErrorMessage::UNKNOWN_TOKEN);
+                }
             }
             else {
-                return Response::MakeJSON(http::status::unauthorized, ErrorCode::UNKNOWN_TOKEN, ErrorMessage::UNKNOWN_TOKEN);
+                return Response::MakeJSON(http::status::unauthorized, ErrorCode::INVALID_TOKEN, ErrorMessage::INVALID_TOKEN);
             }
         }
         else {
