@@ -5,6 +5,7 @@
 #include <random>
 #include <sstream>
 #include <boost/json.hpp>
+#include <boost/format.hpp>
 #include "tagged.h"
 
 namespace model {
@@ -250,10 +251,15 @@ public:
     }
 
     std::string GenerateToken() {
-        std::ostringstream ss;
+        /*std::stringstream ss;
         ss << std::hex << generator1_();
         ss << std::hex << generator2_();
-        std::string result = ss.str();
+        std::string result = ss.str();*/
+        auto i1 = generator1_();
+        auto i2 = generator2_();
+        std::string result = (boost::format("%x") % i1).str();
+        result.append((boost::format("%x") % i2).str());
+
         return result;
     }
 
