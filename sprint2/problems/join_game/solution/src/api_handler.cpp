@@ -114,7 +114,7 @@ namespace http_handler {
                     return Response::MakeJoinGame(token, playerId);
                 }
                 else {
-                    return Response::MakeJSON(http::status::not_found, ErrorCode::INVALID_ARGUMENT, ErrorMessage::INVALID_NAME);
+                    return Response::MakeJSON(http::status::bad_request, ErrorCode::INVALID_ARGUMENT, ErrorMessage::INVALID_NAME);
                 }
             }
             else {
