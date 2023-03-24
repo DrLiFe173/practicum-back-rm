@@ -159,7 +159,7 @@ namespace http_handler {
             std::string tokenTmp{ tokenValue };
             if (tokenTmp.starts_with(TokenMessage::BEARER)) {
                 std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
-                if (!token.empty()) {
+                if (!token.empty() || token.size() != 32) {
                     if (game_.GetPlayerTokens().IsTokenExist(token)) {
                         std::map<std::string, boost::json::object> dogs;
                         game_.GetPlayerTokens().FindDogsBy(token, dogs);
