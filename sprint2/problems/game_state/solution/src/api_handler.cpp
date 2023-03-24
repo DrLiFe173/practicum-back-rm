@@ -128,13 +128,12 @@ namespace http_handler {
 
     StringResponse ApiRequestHandler::ProceedPlayerListRequest(std::string_view& tokenValue)
     {
-        if (!tokenValue.empty())
+        if (!tokenValue.empty() && tokenValue.starts_with(TokenMessage::BEARER))
         {
             std::string tokenTmp{ tokenValue };
-            if (tokenTmp.size() >= TokenMessage::BEARER.size()) {
-                std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
-
-                if (game_.GetPlayerTokens().IsTokenExist(token)) {                   
+            std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
+            if (!token.empty() && token.size() == 32) {
+                if (game_.GetPlayerTokens().IsTokenExist(token)) {
                     std::map<std::string, std::string> players;
                     game_.GetPlayerTokens().FindPlayersBy(token, players);
                     return Response::MakePlayersByToken(players);
@@ -154,33 +153,27 @@ namespace http_handler {
 
     StringResponse ApiRequestHandler::ProceedGameStateRequest(std::string_view& tokenValue)
     {
-        if (!tokenValue.empty())
+        if (!tokenValue.empty() && tokenValue.starts_with(TokenMessage::BEARER))
         {
             std::string tokenTmp{ tokenValue };
-            if (tokenTmp.starts_with(TokenMessage::BEARER)) {
-                std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
-                if (!token.empty() && token.size() == 32) {
-                    if (game_.GetPlayerTokens().IsTokenExist(token)) {
-                        std::map<std::string, boost::json::object> dogs;
-                        game_.GetPlayerTokens().FindDogsBy(token, dogs);
-                        return Response::MakeDogssByToken(dogs);
-                    }
-                    else {
-                        return Response::MakeJSON(http::status::unauthorized, ErrorCode::UNKNOWN_TOKEN, ErrorMessage::UNKNOWN_TOKEN);
-                    }
+            std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
+            if (!token.empty() && token.size() == 32) {
+                if (game_.GetPlayerTokens().IsTokenExist(token)) {
+                    std::map<std::string, boost::json::object> dogs;
+                    game_.GetPlayerTokens().FindDogsBy(token, dogs);
+                    return Response::MakeDogssByToken(dogs);
                 }
                 else {
-                    return Response::MakeJSON(http::status::unauthorized, ErrorCode::INVALID_TOKEN, ErrorMessage::INVALID_TOKEN);
-                }                
+                    return Response::MakeJSON(http::status::unauthorized, ErrorCode::UNKNOWN_TOKEN, ErrorMessage::UNKNOWN_TOKEN);
+                }
             }
             else {
                 return Response::MakeJSON(http::status::unauthorized, ErrorCode::INVALID_TOKEN, ErrorMessage::INVALID_TOKEN);
-            }
+            }                
         }
         else {
             return Response::MakeJSON(http::status::unauthorized, ErrorCode::INVALID_TOKEN, ErrorMessage::INVALID_TOKEN);
         }
     }
-
 
 }// namespace http_handler
