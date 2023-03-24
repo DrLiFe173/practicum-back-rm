@@ -96,12 +96,12 @@ namespace http_handler {
                         }                        
                     }
                     else if (IsGameStateRequest(decoded_request)) {
-                        if (req.method_string() == MiscMessage::ALLOWED_GET_METHOD) {
+                        if (req.method_string() == MiscMessage::ALLOWED_HEAD_METHOD || req.method_string() == MiscMessage::ALLOWED_GET_METHOD) {
                             auto tokenValue = req.base()[boost::beast::http::field::authorization];
                             response = ProceedGameStateRequest(tokenValue);
                         }
                         else {
-                            response = Response::MakeMethodNotAllowed(ErrorMessage::INVALID_METHOD, MiscMessage::ALLOWED_GET_METHOD);
+                            response = Response::MakeMethodNotAllowed(ErrorMessage::INVALID_METHOD, MiscMessage::ALLOWED_GET_HEAD_METHOD);
                         }                        
                     }
                 }
