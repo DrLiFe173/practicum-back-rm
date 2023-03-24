@@ -79,12 +79,12 @@ namespace http_handler {
     }
     StringResponse Response::MakeDogssByToken(std::map<std::string, boost::json::object>& dogs)
     {
-        boost::json::object json;
+        boost::json::object json, js;
         for (auto dog : dogs) {
-            boost::json::object js;
-            js["name"] = dog.second;
-            json[dog.first] = js;
+            js[dog.first] = dog.second;            
         }
+        json[JsonField::PLAYERS] = js;
+
         return Response::Make(http::status::ok, boost::json::serialize(json), ContentType::APP_JSON);
     }
     FileResponse Response::MakeFileResponse(const std::filesystem::path& file_path, unsigned http_version, bool isKeepAlive)

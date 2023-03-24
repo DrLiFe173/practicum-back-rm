@@ -159,14 +159,19 @@ namespace http_handler {
             std::string tokenTmp{ tokenValue };
             if (tokenTmp.starts_with(TokenMessage::BEARER)) {
                 std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
-                if (game_.GetPlayerTokens().IsTokenExist(token)) {
-                    std::map<std::string, boost::json::object> dogs;
-                    game_.GetPlayerTokens().FindDogsBy(token, dogs);
-                    return Response::MakeDogssByToken(dogs);
+                if (!token.empty()) {
+                    if (game_.GetPlayerTokens().IsTokenExist(token)) {
+                        std::map<std::string, boost::json::object> dogs;
+                        game_.GetPlayerTokens().FindDogsBy(token, dogs);
+                        return Response::MakeDogssByToken(dogs);
+                    }
+                    else {
+                        return Response::MakeJSON(http::status::unauthorized, ErrorCode::UNKNOWN_TOKEN, ErrorMessage::UNKNOWN_TOKEN);
+                    }
                 }
                 else {
-                    return Response::MakeJSON(http::status::unauthorized, ErrorCode::UNKNOWN_TOKEN, ErrorMessage::UNKNOWN_TOKEN);
-                }
+                    return Response::MakeJSON(http::status::unauthorized, ErrorCode::INVALID_TOKEN, ErrorMessage::INVALID_TOKEN);
+                }                
             }
             else {
                 return Response::MakeJSON(http::status::unauthorized, ErrorCode::INVALID_TOKEN, ErrorMessage::INVALID_TOKEN);

@@ -37,6 +37,7 @@ struct JsonField
     static inline const std::string MESSAGE = "message"s;
     static inline const std::string AUTH_TOKEN = "authToken"s;
     static inline const std::string PLAYER_ID = "playerId"s;
+    static inline const std::string PLAYERS = "players"s;
 };
 
 struct ServerParam
