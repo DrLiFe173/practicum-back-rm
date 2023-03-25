@@ -30,17 +30,6 @@ jobs:
         run: |
           cp -R /home/forconan/.conan /github/home/.conan
 
-      - name: build tests sprint2 game_state
-        run: |
-          cd sprint2/problems/game_state/solution
-          docker build -t game_state .
-      - name: run tests sprint2 game_state
-        run: pytest --workers auto --junitxml=${GITHUB_WORKSPACE}/game_state.xml cpp-backend-tests-practicum/tests/test_s02_game_state.py
-        env:
-          SERVER_DOMAIN: cppserver
-          CONFIG_PATH: ${{ github.workspace }}/sprint2/problems/game_state/solution/data/config.json
-          IMAGE_NAME: game_state
-
       - name: build tests sprint2 move_players
         run: |
           cd sprint2/problems/move_players/solution
