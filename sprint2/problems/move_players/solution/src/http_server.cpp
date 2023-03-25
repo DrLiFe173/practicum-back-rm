@@ -1,5 +1,6 @@
 #include "http_server.h"
 #include <iostream>
+#include "magic_defs.h"
 
 namespace http_server {
 
@@ -19,7 +20,7 @@ namespace http_server {
 
 	void  SessionBase::OnWrite(bool close, beast::error_code ec, [[maybe_unused]] std::size_t bytes_written) {
 		if (ec) {
-			return ReportError(ec, "write"sv);
+			return ReportError(ec, ServerAction::WRITE);
 		}
 
 		if (close) {
@@ -48,12 +49,12 @@ namespace http_server {
 		if (ec == http::error::end_of_stream) {
 			// Нормальная ситуация - клиент закрыл соединение
 			std::string message = ec.message();
-			std::string place = "read"s;
+			std::string place = ServerAction::READ.data();
 			Logger::LogWebError(ec.value(), message, place);
 			return Close();
 		}
 		if (ec) {
-			return ReportError(ec, "read"sv);
+			return ReportError(ec, ServerAction::READ);
 		}
 		HandleRequest(std::move(request_));
 	};

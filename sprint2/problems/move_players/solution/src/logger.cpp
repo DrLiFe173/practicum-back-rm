@@ -9,6 +9,7 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/date_time.hpp>
 #include <boost/log/utility/manipulators/add_value.hpp> 
+#include "magic_defs.h"
  
 using namespace std::literals;
 namespace logging = boost::log;
@@ -38,66 +39,66 @@ BOOST_LOG_ATTRIBUTE_KEYWORD(additional_data, "AdditionalData", boost::json::obje
 
     void Logger::LogRequest(std::string& ip, std::string& uri, std::string& method) {
         boost::json::object json;
-        json["ip"] = ip;
-        json["URI"] = uri;
-        json["method"] = method;
-        std::string message = "request received"s;
+        json[LoggerDefs::IP] = ip;
+        json[LoggerDefs::URI] = uri;
+        json[LoggerDefs::METHOD] = method;
+        std::string message = LoggerDefs::REQ_RECIEVED;
         Log(json, message);
     }
 
     void Logger::LogResponse(std::string& ip, long long time, int code, std::string& content_type) {
         boost::json::object json;
-        json["ip"] = ip;
-        json["response_time"] = time;
-        json["code"] = code;
-        json["content_type"] = content_type;
-        std::string message = "response sent"s;
+        json[LoggerDefs::IP] = ip;
+        json[LoggerDefs::RESP_TIME] = time;
+        json[LoggerDefs::CODE] = code;
+        json[LoggerDefs::CONTENT_TYPE] = content_type;
+        std::string message = LoggerDefs::RESP_SENT;
         Log(json, message);
     }
 
     void Logger::LogServerStop(int code, std::string& exception) {
         boost::json::object json;
-        json["code"] = code;
-        json["exception"] = exception;
-        std::string message = "server exited"s;
+        json[LoggerDefs::CODE] = code;
+        json[LoggerDefs::EXCEPTION] = exception;
+        std::string message = ServerMessage::EXIT.data();
         Log(json, message);
     }
 
     void Logger::LogServerStop(int code) {
         boost::json::object json;
-        json["code"] = code;
-        std::string message = "server exited"s;
+        json[LoggerDefs::CODE] = code;
+        std::string message = ServerMessage::EXIT.data();
         Log(json, message);
     }
 
     void Logger::LogServerStart(int port, std::string& address) {
         boost::json::object json;
-        json["port"] = port;
-        json["address"] = address;
-        std::string message = "server started"s;
+        json[LoggerDefs::PORT] = port;
+        json[LoggerDefs::ADDRESS] = address;
+        std::string message = ServerMessage::START.data();
         Log(json, message);        
     }
 
     void Logger::LogWebError(int code, std::string& exception, std::string& where) {
         boost::json::object json;
-        json["code"] = code;
-        json["exception"] = exception;
-        json["where"] = where;
-        std::string message = "error"s;
+        json[LoggerDefs::CODE] = code;
+        json[LoggerDefs::EXCEPTION] = exception;
+        json[LoggerDefs::WHERE] = where;
+        std::string message = LoggerDefs::ERR;
         Log(json, message);
     }
 
     void Logger::LogServerError(std::string& exception, std::string& where) {
         boost::json::object json;
-        json["exception"] = exception;
-        json["where"] = where;
-        std::string message = "error"s;
+        json[LoggerDefs::EXCEPTION] = exception;
+        json[LoggerDefs::WHERE] = where;
+        std::string message = LoggerDefs::ERR;
         Log(json, message);
     }
 
     void Logger::LogServerMessage(std::string& info, std::string& where) {
         boost::json::object json;
-        json["where"] = where;
-        std::string message = "info"s;
+        json[LoggerDefs::WHERE] = where;
+        std::string message = LoggerDefs::INFO;
         Log(json, message);
     }

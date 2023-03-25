@@ -6,78 +6,100 @@ using namespace std::literals;
 
 struct TokenMessage
 {
-    static inline constexpr std::string_view BEARER = "Bearer "sv;
+    static inline constexpr std::string_view BEARER     = "Bearer "sv;
 };
 
 struct GameDefs
 {
-    static inline constexpr std::string_view NORTH = "U"sv;
-    static inline constexpr std::string_view SOUTH = "D"sv;
-    static inline constexpr std::string_view EAST = "R"sv;
-    static inline constexpr std::string_view WEST = "L"sv;
+    static inline constexpr std::string_view NORTH      = "U"sv;
+    static inline constexpr std::string_view SOUTH      = "D"sv;
+    static inline constexpr std::string_view EAST       = "R"sv;
+    static inline constexpr std::string_view WEST       = "L"sv;
 };
 
 struct ConfigDefs
 {
-    static inline const std::string DEF_SPEED       = "defaultDogSpeed"s;
-    static inline const std::string MAP_SPEED       = "dogSpeed"s;
-    static inline const std::string MAPS            = "maps"s;
-    static inline const std::string ID              = "id"s;
-    static inline const std::string NAME            = "name"s;
-    static inline const std::string ROADS           = "roads"s;
-    static inline const std::string BUILDINGS       = "buildings"s;
-    static inline const std::string OFFICES         = "offices"s;
-    static inline const std::string X               = "x"s;
-    static inline const std::string Y               = "y"s;
-    static inline const std::string X0              = "x0"s;
-    static inline const std::string Y0              = "y0"s;
-    static inline const std::string X1              = "x1"s;
-    static inline const std::string Y1              = "y1"s;
-    static inline const std::string W               = "w"s;
-    static inline const std::string H               = "h"s;
-    static inline const std::string OFFSET_X        = "offsetX"s;
-    static inline const std::string OFFSET_Y        = "offsetY"s;
+    static inline const std::string DEF_SPEED           = "defaultDogSpeed"s;
+    static inline const std::string MAP_SPEED           = "dogSpeed"s;
+    static inline const std::string MAPS                = "maps"s;
+    static inline const std::string ID                  = "id"s;
+    static inline const std::string NAME                = "name"s;
+    static inline const std::string ROADS               = "roads"s;
+    static inline const std::string BUILDINGS           = "buildings"s;
+    static inline const std::string OFFICES             = "offices"s;
+    static inline const std::string X                   = "x"s;
+    static inline const std::string Y                   = "y"s;
+    static inline const std::string X0                  = "x0"s;
+    static inline const std::string Y0                  = "y0"s;
+    static inline const std::string X1                  = "x1"s;
+    static inline const std::string Y1                  = "y1"s;
+    static inline const std::string W                   = "w"s;
+    static inline const std::string H                   = "h"s;
+    static inline const std::string OFFSET_X            = "offsetX"s;
+    static inline const std::string OFFSET_Y            = "offsetY"s;
+};
+
+struct LoggerDefs
+{
+    static inline const std::string IP                  = "ip"s;
+    static inline const std::string RESP_TIME           = "response_time"s;
+    static inline const std::string CODE                = "code"s;
+    static inline const std::string CONTENT_TYPE        = "content_type"s;
+    static inline const std::string RESP_SENT           = "response sent"s;
+    static inline const std::string URI                 = "URI"s;
+    static inline const std::string METHOD              = "method"s;
+    static inline const std::string REQ_RECIEVED        = "request received"s;
+    static inline const std::string EXCEPTION           = "exception"s;
+    static inline const std::string PORT                = "port"s;
+    static inline const std::string ADDRESS             = "address"s;
+    static inline const std::string WHERE               = "where"s;
+    static inline const std::string ERR                 = "error"s;
+    static inline const std::string INFO                = "info"s;
 };
 
 struct ServerMessage
 {
-    static inline constexpr std::string_view START = "Server has started..."sv;
-    static inline constexpr std::string_view EXIT = "server exited"sv;
-    static inline constexpr std::string_view ERROR_ARGS = "Usage: game_server <game-config-json>"sv;
+    static inline constexpr std::string_view START          = "server started"sv;
+    static inline constexpr std::string_view EXIT           = "server exited"sv;
+    static inline constexpr std::string_view ERROR_ARGS     = "Usage: game_server <game-config-json>"sv;
+    static inline constexpr std::string_view OPEN_FILE_FAIL = "Failed to open file "sv;
 };
 
 struct ServerAction
 {
-    static inline constexpr std::string_view READ = "read"sv;
-    static inline constexpr std::string_view WRITE = "write"sv;
-    static inline constexpr std::string_view ACCEPT = "accept"sv;
+    static inline constexpr std::string_view READ       = "read"sv;
+    static inline constexpr std::string_view WRITE      = "write"sv;
+    static inline constexpr std::string_view ACCEPT     = "accept"sv;
 };
 
 struct JsonField
 {
-    static inline const std::string CODE = "code"s;
-    static inline const std::string MESSAGE = "message"s;
-    static inline const std::string AUTH_TOKEN = "authToken"s;
-    static inline const std::string PLAYER_ID = "playerId"s;
-    static inline const std::string PLAYERS = "players"s;
-    static inline const std::string MOVE = "move"s;
+    static inline const std::string CODE                = "code"s;
+    static inline const std::string MESSAGE             = "message"s;
+    static inline const std::string AUTH_TOKEN          = "authToken"s;
+    static inline const std::string PLAYER_ID           = "playerId"s;
+    static inline const std::string PLAYERS             = "players"s;
+    static inline const std::string MOVE                = "move"s;
+    static inline const std::string USER_NAME           = "userName"s;
+    static inline const std::string MAP_ID              = "mapId"s;
+    static inline const std::string NAME                = "name"s;
 };
 
 struct ServerParam
 {
-    static inline constexpr std::string_view ADDR = "0.0.0.0"sv;
-    static inline const uint32_t PORT = 8080;
+    static inline constexpr std::string_view ADDR       = "0.0.0.0"sv;
+    static inline const uint32_t PORT                   = 8080;
 };
 
 struct ErrorCode
 {
-    static inline constexpr std::string_view BAD_REQUEST = "badRequest"sv;
-    static inline constexpr std::string_view INVALID_METHOD = "invalidMethod"sv;
-    static inline constexpr std::string_view INVALID_ARGUMENT = "invalidArgument"sv;
-    static inline constexpr std::string_view INVALID_TOKEN = "invalidToken"sv;
-    static inline constexpr std::string_view UNKNOWN_TOKEN = "unknownToken"sv;
-    static inline constexpr std::string_view MAP_NOT_FOUND = "mapNotFound"sv;
-    static inline constexpr std::string_view FILE_NOT_FOUND = "fileNotFound"sv;
+    static inline constexpr std::string_view BAD_REQUEST        = "badRequest"sv;
+    static inline constexpr std::string_view INVALID_METHOD     = "invalidMethod"sv;
+    static inline constexpr std::string_view INVALID_ARGUMENT   = "invalidArgument"sv;
+    static inline constexpr std::string_view INVALID_TOKEN      = "invalidToken"sv;
+    static inline constexpr std::string_view UNKNOWN_TOKEN      = "unknownToken"sv;
+    static inline constexpr std::string_view MAP_NOT_FOUND      = "mapNotFound"sv;
+    static inline constexpr std::string_view FILE_NOT_FOUND     = "fileNotFound"sv;
 };
 
 struct ErrorMessage
@@ -114,6 +136,7 @@ struct MiscMessage
 struct Endpoint
 {
     static inline constexpr std::string_view API                = "/api/"sv;
+    static inline constexpr std::string_view VERSION            = "/v1/"sv;
     static inline constexpr std::string_view MAPS               = "/api/v1/maps"sv;
     static inline constexpr std::string_view GAME               = "/api/v1/game/"sv;
     static inline constexpr std::string_view JOIN_GAME          = "/api/v1/game/join"sv;

@@ -30,7 +30,7 @@ namespace http_handler {
 
 		bool IsApiRequest(const std::string requestTarget)
 		{
-			return requestTarget.starts_with("/api/"sv);
+			return requestTarget.starts_with(Endpoint::API);
 		}
 
 		bool IsMapRequest(const std::string requestTarget) {
@@ -38,7 +38,7 @@ namespace http_handler {
 		}
 
 		bool IsApiVersionCorrect(const std::string requestTarget) {
-			return requestTarget.substr(4, 4) == "/v1/"sv ? true : false;
+			return requestTarget.substr(4, 4) == Endpoint::VERSION ? true : false;
 		}
 
 		bool IsJoinGameRequest(const std::string requestTarget) {

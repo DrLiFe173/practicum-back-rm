@@ -72,7 +72,7 @@ namespace http_handler {
         boost::json::object json;
         for (auto player : players) {
             boost::json::object js;
-            js["name"] = player.second;
+            js[JsonField::NAME] = player.second;
             json[player.first] = js;
         }
         return Response::Make(http::status::ok, boost::json::serialize(json), ContentType::APP_JSON);
@@ -103,7 +103,7 @@ namespace http_handler {
 
         http::file_body::value_type file;
         if (boost::system::error_code ec; file.open(file_path.string().c_str(), beast::file_mode::read, ec), ec) {
-            std::string message = "Failed to open file "s;
+            std::string message = ServerMessage::OPEN_FILE_FAIL.data();
             message.append(file_path.string());
             std::string place = "request_handler"s;
             Logger::LogServerError(message, place);

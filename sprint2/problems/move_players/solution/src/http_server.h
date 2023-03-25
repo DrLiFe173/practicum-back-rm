@@ -9,6 +9,7 @@
 #include <boost/beast/http.hpp>
 #include "logger.h"
 #include <iostream>
+#include "magic_defs.h"
 
 namespace http_server {
 
@@ -174,7 +175,7 @@ namespace http_server {
         void OnAccept(sys::error_code ec, tcp::socket socket) { 
 
             if (ec) {
-                return ReportError(ec, "accept"sv);
+                return ReportError(ec, ServerAction::ACCEPT);
             }
 
             // Асинхронно обрабатываем сессию

@@ -30,8 +30,8 @@ namespace http_handler {
         json::array jsonArr;
         for (auto map : maps) {
             json::object mapObj;
-            mapObj["id"] = *map.GetId();
-            mapObj["name"] = map.GetName();
+            mapObj[ConfigDefs::ID] = *map.GetId();
+            mapObj[ConfigDefs::NAME] = map.GetName();
             jsonArr.push_back(mapObj);
         }
         body = json::serialize(jsonArr);
@@ -60,27 +60,27 @@ namespace http_handler {
         for (auto building : map->GetBuildings()) {
             model::Rectangle bound = building.GetBounds();
             json::object tempObj;
-            tempObj["x"] = bound.position.x;
-            tempObj["y"] = bound.position.y;
-            tempObj["w"] = bound.size.width;
-            tempObj["h"] = bound.size.height;
+            tempObj[ConfigDefs::X] = bound.position.x;
+            tempObj[ConfigDefs::Y] = bound.position.y;
+            tempObj[ConfigDefs::W] = bound.size.width;
+            tempObj[ConfigDefs::H] = bound.size.height;
             jsonArr.push_back(tempObj);
         }
-        object["buildings"] = jsonArr;
+        object[ConfigDefs::BUILDINGS] = jsonArr;
     }
 
     void ApiRequestHandler::AddOfficesInfo(const model::Map* map, json::object& object) {
         json::array jsonArr;
         for (auto office : map->GetOffices()) {
             json::object tempObj;
-            tempObj["id"] = *office.GetId();
-            tempObj["x"] = office.GetPosition().x;
-            tempObj["y"] = office.GetPosition().y;
-            tempObj["offsetX"] = office.GetOffset().dx;
-            tempObj["offsetY"] = office.GetOffset().dy;
+            tempObj[ConfigDefs::ID] = *office.GetId();
+            tempObj[ConfigDefs::X] = office.GetPosition().x;
+            tempObj[ConfigDefs::Y] = office.GetPosition().y;
+            tempObj[ConfigDefs::OFFSET_X] = office.GetOffset().dx;
+            tempObj[ConfigDefs::OFFSET_Y] = office.GetOffset().dy;
             jsonArr.push_back(tempObj);
         }
-        object["offices"] = jsonArr;
+        object[ConfigDefs::OFFICES] = jsonArr;
     }
 
     void ApiRequestHandler::AddMapInfo(std::string& body, std::string& mapId) {
@@ -88,8 +88,8 @@ namespace http_handler {
         auto requested_map = game_.FindMap(id);
         if (requested_map != NULL) {
             json::object obj;
-            obj["id"] = *requested_map->GetId();
-            obj["name"] = requested_map->GetName();
+            obj[ConfigDefs::ID] = *requested_map->GetId();
+            obj[ConfigDefs::NAME] = requested_map->GetName();
 
             AddRoadsInfo(requested_map, obj);
             AddBuildingsInfo(requested_map, obj);
@@ -103,9 +103,9 @@ namespace http_handler {
     {
         try {
             auto jsonValue = json::parse(body);            
-            std::string userName = jsonValue.as_object().at("userName"s).as_string().data();      
+            std::string userName = jsonValue.as_object().at(JsonField::USER_NAME).as_string().data();
             if (userName.size() != 0) {
-                std::string mapId = jsonValue.as_object().at("mapId"s).as_string().data();
+                std::string mapId = jsonValue.as_object().at(JsonField::MAP_ID).as_string().data();
                 model::Map::Id id{ mapId };
                 auto requested_map = game_.FindMap(id);
                 if (requested_map != nullptr) {
