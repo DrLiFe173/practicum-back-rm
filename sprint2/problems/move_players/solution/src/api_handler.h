@@ -5,6 +5,7 @@
 #include <boost/beast/http.hpp>
 #include <boost/json.hpp>
 #include <variant>
+#include <optional>
 
 #include "model.h"
 #include "magic_defs.h"
