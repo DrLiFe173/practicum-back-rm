@@ -183,18 +183,16 @@ namespace http_handler {
 
     StringResponse ApiRequestHandler::ProceedGameTickRequest(std::string_view& tokenValue, std::string& body)
     {
-        return ExecuteAuthorized(tokenValue, [&](std::string& token) {
-            try {
-                auto jsonValue = json::parse(body);
-                const int64_t tick = jsonValue.as_object().at(JsonField::TIME_DELTA).as_int64();
-                game_.UpdateGameSessions(tick);
-                return Response::MakePlayerActionByToken();
-            }
-            catch (...)
-            {
-                return Response::MakeBadRequestInvalidArgument(ErrorMessage::GAME_ACTION_PARSE_ERROR);
-            }
-            });
+        try {
+            auto jsonValue = json::parse(body);
+            const int64_t tick = jsonValue.as_object().at(JsonField::TIME_DELTA).as_int64();
+            game_.UpdateGameSessions(tick);
+            return Response::MakePlayerActionByToken();
+        }
+        catch (...)
+        {
+            return Response::MakeBadRequestInvalidArgument(ErrorMessage::GAME_ACTION_PARSE_ERROR);
+        }
     }
 
 }// namespace http_handler
