@@ -305,9 +305,9 @@ public:
 private:
     void SetStartPosition();
 
-    void MakeHorizontalMovement(const int64_t& tick);
+    void MakeHorizontalMovement(const double& tick);
 
-    void MakeVerticalMovement(const int64_t& tick);
+    void MakeVerticalMovement(const double& tick);
 
     std::string name_;
     DogCoords position_;

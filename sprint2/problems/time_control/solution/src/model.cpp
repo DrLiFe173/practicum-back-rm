@@ -5,7 +5,7 @@
 namespace model {
 using namespace std::literals;
 
-void Dog::MakeHorizontalMovement(const int64_t& tick) {
+void Dog::MakeHorizontalMovement(const double& tick) {
     auto new_coord = position_.x + speed_.vx * tick;
     RealDimension x_pos_start, x_pos_end;
     RealDimension offset = 0.4;
@@ -45,7 +45,7 @@ void Dog::MakeHorizontalMovement(const int64_t& tick) {
     }
 }
 
-void Dog::MakeVerticalMovement(const int64_t& tick) {
+void Dog::MakeVerticalMovement(const double& tick) {
     auto new_coord = position_.y + speed_.vy * tick;
     RealDimension y_pos_start, y_pos_end;
     const RealDimension offset = 0.4;
@@ -86,9 +86,10 @@ void Dog::MakeVerticalMovement(const int64_t& tick) {
 }
 
 void Dog::UpdateCoords(const int64_t& tick) {
+    double tick_d = tick / 1000.0;
     if (direction_ == Direction::NORTH || direction_ == Direction::SOUTH) {
         if (road_->IsVertical()) {                              // проверить соосность направления скорости с дорогой
-            MakeVerticalMovement(tick);
+            MakeVerticalMovement(tick_d);
         }
         else {
             // проверка наличия перекрестка
@@ -102,12 +103,12 @@ void Dog::UpdateCoords(const int64_t& tick) {
                     road_ = road_->GetCrossRoars().at(pos);
                 }
             }
-            MakeVerticalMovement(tick);
+            MakeVerticalMovement(tick_d);
         }
     }
     else if (direction_ == Direction::WEST || direction_ == Direction::EAST) {
         if (road_->IsHorizontal()) {                              // проверить соосность направления скорости с дорогой
-            MakeHorizontalMovement(tick);
+            MakeHorizontalMovement(tick_d);
         }
         else {
             // проверка наличия перекрестка
@@ -121,7 +122,7 @@ void Dog::UpdateCoords(const int64_t& tick) {
                     road_ = road_->GetCrossRoars().at(pos);
                 }
             }
-            MakeHorizontalMovement(tick);
+            MakeHorizontalMovement(tick_d);
         }
     }
 }
