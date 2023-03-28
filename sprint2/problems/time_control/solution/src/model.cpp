@@ -21,14 +21,18 @@ void Dog::MakeHorizontalMovement(const double& tick) {
 
     if (direction_ == Direction::WEST) {
         if (position_.x != x_pos_start) {                   // проверить край дороги
-            if (new_coord > (x_pos_start)) {         // проверить возможность движения в пределах дороги
+            if (new_coord >= (x_pos_start)) {         // проверить возможность движения в пределах дороги
                 position_.x = new_coord;
             }
             else {
                 position_.x = x_pos_start;
-                //Speed zero_speed = Speed{ 0.0, 0.0 };
-                //SetDogSpeed(zero_speed);
+                Speed zero_speed = Speed{ 0.0, 0.0 };
+                SetDogSpeed(zero_speed);
             }
+        }
+        else {
+            Speed zero_speed = Speed{ 0.0, 0.0 };
+            SetDogSpeed(zero_speed);
         }
     }
     else {
@@ -38,9 +42,13 @@ void Dog::MakeHorizontalMovement(const double& tick) {
             }
             else {
                 position_.x = x_pos_end;
-                //Speed zero_speed = Speed{ 0.0, 0.0 };
-                //SetDogSpeed(zero_speed);
+                Speed zero_speed = Speed{ 0.0, 0.0 };
+                SetDogSpeed(zero_speed);
             }
+        }
+        else {
+            Speed zero_speed = Speed{ 0.0, 0.0 };
+            SetDogSpeed(zero_speed);
         }
     }
 }
@@ -61,26 +69,34 @@ void Dog::MakeVerticalMovement(const double& tick) {
 
     if (direction_ == Direction::NORTH) {
         if (position_.y != y_pos_start) {                   // проверить край дороги
-            if (new_coord > y_pos_start) {         // проверить возможность движения в пределах дороги
+            if (new_coord >= y_pos_start) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
             else {
                 position_.y = y_pos_start;
-                //Speed zero_speed = Speed{ 0.0, 0.0 };
-                //SetDogSpeed(zero_speed);
+                Speed zero_speed = Speed{ 0.0, 0.0 };
+                SetDogSpeed(zero_speed);
             }
+        }
+        else {
+            Speed zero_speed = Speed{ 0.0, 0.0 };
+            SetDogSpeed(zero_speed);
         }
     }
     else {
         if (position_.y != y_pos_end) {                   // проверить край дороги
-            if (new_coord < y_pos_end) {         // проверить возможность движения в пределах дороги
+            if (new_coord <= y_pos_end) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
             else {
                 position_.y = y_pos_end;
-                //Speed zero_speed = Speed{ 0.0, 0.0 };
-                //SetDogSpeed(zero_speed);
+                Speed zero_speed = Speed{ 0.0, 0.0 };
+                SetDogSpeed(zero_speed);
             }
+        }
+        else {
+            Speed zero_speed = Speed{ 0.0, 0.0 };
+            SetDogSpeed(zero_speed);
         }
     }
 }
