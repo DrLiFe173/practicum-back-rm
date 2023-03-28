@@ -26,8 +26,8 @@ void Dog::MakeHorizontalMovement(const double& tick) {
             }
             else {
                 position_.x = x_pos_start;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
-                SetDogSpeed(zero_speed);
+                //Speed zero_speed = Speed{ 0.0, 0.0 };
+                //SetDogSpeed(zero_speed);
             }
         }
     }
@@ -38,8 +38,8 @@ void Dog::MakeHorizontalMovement(const double& tick) {
             }
             else {
                 position_.x = x_pos_end;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
-                SetDogSpeed(zero_speed);
+                //Speed zero_speed = Speed{ 0.0, 0.0 };
+                //SetDogSpeed(zero_speed);
             }
         }
     }
@@ -66,8 +66,8 @@ void Dog::MakeVerticalMovement(const double& tick) {
             }
             else {
                 position_.y = y_pos_start;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
-                SetDogSpeed(zero_speed);
+                //Speed zero_speed = Speed{ 0.0, 0.0 };
+                //SetDogSpeed(zero_speed);
             }
         }
     }
@@ -78,8 +78,8 @@ void Dog::MakeVerticalMovement(const double& tick) {
             }
             else {
                 position_.y = y_pos_end;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
-                SetDogSpeed(zero_speed);
+                //Speed zero_speed = Speed{ 0.0, 0.0 };
+                //SetDogSpeed(zero_speed);
             }
         }
     }
