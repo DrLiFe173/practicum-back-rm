@@ -302,6 +302,10 @@ public:
 
     void UpdateCoords(const int64_t& tick);
 
+    bool IsZeroSpeed() {
+        return ((speed_.vx == 0.0) && (speed_.vy == 0.0));
+    }
+
 private:
     void SetStartPosition();
 

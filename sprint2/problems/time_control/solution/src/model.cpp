@@ -20,7 +20,7 @@ void Dog::MakeHorizontalMovement(const double& tick) {
     }
 
     if (direction_ == Direction::WEST) {
-        if (position_.x != x_pos_start) {                   // проверить край дороги
+        if (position_.x != x_pos_start && !IsZeroSpeed()) {                   // проверить край дороги
             if (new_coord >= (x_pos_start)) {         // проверить возможность движения в пределах дороги
                 position_.x = new_coord;
             }
@@ -36,7 +36,7 @@ void Dog::MakeHorizontalMovement(const double& tick) {
         }
     }
     else {
-        if (position_.x != x_pos_end) {                   // проверить край дороги
+        if (position_.x != x_pos_end && !IsZeroSpeed()) {                   // проверить край дороги
             if (new_coord < (x_pos_end)) {         // проверить возможность движения в пределах дороги
                 position_.x = new_coord;
             }
@@ -68,7 +68,7 @@ void Dog::MakeVerticalMovement(const double& tick) {
     }
 
     if (direction_ == Direction::NORTH) {
-        if (position_.y != y_pos_start) {                   // проверить край дороги
+        if (position_.y != y_pos_start && !IsZeroSpeed()) {                   // проверить край дороги
             if (new_coord >= y_pos_start) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
@@ -84,7 +84,7 @@ void Dog::MakeVerticalMovement(const double& tick) {
         }
     }
     else {
-        if (position_.y != y_pos_end) {                   // проверить край дороги
+        if (position_.y != y_pos_end && !IsZeroSpeed()) {                   // проверить край дороги
             if (new_coord <= y_pos_end) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
