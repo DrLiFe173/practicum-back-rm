@@ -30,17 +30,6 @@ jobs:
         run: |
           cp -R /home/forconan/.conan /github/home/.conan
 
-      - name: build tests sprint2 move_players
-        run: |
-          cd sprint2/problems/move_players/solution
-          docker build -t move_players .
-      - name: run tests sprint2 move_players
-        run: pytest --workers auto --junitxml=${GITHUB_WORKSPACE}/move_players.xml cpp-backend-tests-practicum/tests/test_s02_move_players.py
-        env:
-          SERVER_DOMAIN: cppserver
-          CONFIG_PATH: ${{ github.workspace }}/sprint2/problems/move_players/solution/data/config.json
-          IMAGE_NAME: move_players
-
       - name: build tests sprint2 time_control
         run: |
           cd sprint2/problems/time_control/solution
