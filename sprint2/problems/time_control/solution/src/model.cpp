@@ -7,34 +7,39 @@ using namespace std::literals;
 
 void Dog::MakeHorizontalMovement(const int64_t& tick) {
     auto new_coord = position_.x + speed_.vx * tick;
-    Dimension x_pos_start, x_pos_end;
+    RealDimension x_pos_start, x_pos_end;
 
     if (road_->GetStart().x <= road_->GetEnd().x) {     // условие если дорога по координатам идет в обратную сторону
-        x_pos_start = road_->GetStart().x;
-        x_pos_end = road_->GetEnd().x;
+        x_pos_start = road_->GetStart().x - 0.4f;
+        x_pos_end = road_->GetEnd().x + 0.4f;
     }
     else {
-        x_pos_start = road_->GetEnd().x;
-        x_pos_end = road_->GetStart().x;
+        x_pos_start = road_->GetEnd().x - 0.4f;
+        x_pos_end = road_->GetStart().x + 0.4f;
     }
 
     if (direction_ == Direction::WEST) {
         if (position_.x != x_pos_start) {                   // проверить край дороги
-            if (new_coord > (x_pos_start - 0.4f)) {         // проверить возможность движения в пределах дороги
+            if (new_coord > (x_pos_start)) {         // проверить возможность движения в пределах дороги
                 position_.x = new_coord;
             }
             else {
-                position_.x = static_cast<RealDimension>(x_pos_start);
+                //RealDimension test = 
+                position_.x = x_pos_start;
+                Speed zero_speed = Speed{ 0.0f, 0.0f };
+                SetDogSpeed(zero_speed);
             }
         }
     }
     else {
         if (position_.x != x_pos_end) {                   // проверить край дороги
-            if (new_coord < (x_pos_end + 0.4f)) {         // проверить возможность движения в пределах дороги
+            if (new_coord < (x_pos_end)) {         // проверить возможность движения в пределах дороги
                 position_.x = new_coord;
             }
             else {
-                position_.x = static_cast<RealDimension>(x_pos_end);
+                position_.x = x_pos_end;
+                Speed zero_speed = Speed{ 0.0f, 0.0f };
+                SetDogSpeed(zero_speed);
             }
         }
     }
@@ -42,34 +47,38 @@ void Dog::MakeHorizontalMovement(const int64_t& tick) {
 
 void Dog::MakeVerticalMovement(const int64_t& tick) {
     auto new_coord = position_.y + speed_.vy * tick;
-    Dimension y_pos_start, y_pos_end;
+    RealDimension y_pos_start, y_pos_end;
 
     if (road_->GetStart().y <= road_->GetEnd().y) {     // условие если дорога по координатам идет в обратную сторону
-        y_pos_start = road_->GetStart().y;
-        y_pos_end = road_->GetEnd().y;
+        y_pos_start = road_->GetStart().y - 0.4f;
+        y_pos_end = road_->GetEnd().y + 0.4f;
     }
     else {
-        y_pos_start = road_->GetEnd().y;
-        y_pos_end = road_->GetStart().y;
+        y_pos_start = road_->GetEnd().y - 0.4f;
+        y_pos_end = road_->GetStart().y + 0.4f;
     }
 
     if (direction_ == Direction::NORTH) {
         if (position_.y != y_pos_start) {                   // проверить край дороги
-            if (new_coord > (y_pos_start - 0.4f)) {         // проверить возможность движения в пределах дороги
+            if (new_coord > (y_pos_start)) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
             else {
-                position_.y = static_cast<RealDimension>(y_pos_start);
+                position_.y = y_pos_start;
+                Speed zero_speed = Speed{ 0.0f, 0.0f };
+                SetDogSpeed(zero_speed);
             }
         }
     }
     else {
         if (position_.y != y_pos_end) {                   // проверить край дороги
-            if (new_coord < (y_pos_end + 0.4f)) {         // проверить возможность движения в пределах дороги
+            if (new_coord < (y_pos_end)) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
             else {
-                position_.y = static_cast<RealDimension>(y_pos_end);
+                position_.y = y_pos_end;
+                Speed zero_speed = Speed{ 0.0f, 0.0f };
+                SetDogSpeed(zero_speed);
             }
         }
     }
@@ -162,7 +171,6 @@ void Dog::SetDogSpeed(Speed& new_speed) {
     else {
         speed_.vx = 0.0f;
         speed_.vy = 0.0f;
-        direction_ = Direction::UNKNOWN;
     }
 }
 
