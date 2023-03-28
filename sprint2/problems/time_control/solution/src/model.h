@@ -16,7 +16,7 @@ namespace model {
 
 using Dimension = int64_t;
 using Coord = Dimension;
-using RealDimension = float;
+using RealDimension = double;
 
 enum Direction {
     UNKNOWN = -1,
