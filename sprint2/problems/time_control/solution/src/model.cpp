@@ -55,7 +55,7 @@ void Dog::MakeVerticalMovement(const int64_t& tick) {
 
     if (direction_ == Direction::NORTH) {
         if (position_.y != y_pos_start) {                   // проверить край дороги
-            if (new_coord > (y_pos_start + 0.4f)) {         // проверить возможность движения в пределах дороги
+            if (new_coord > (y_pos_start - 0.4f)) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
             else {
@@ -65,7 +65,7 @@ void Dog::MakeVerticalMovement(const int64_t& tick) {
     }
     else {
         if (position_.y != y_pos_end) {                   // проверить край дороги
-            if (new_coord < (y_pos_end - 0.4f)) {         // проверить возможность движения в пределах дороги
+            if (new_coord < (y_pos_end + 0.4f)) {         // проверить возможность движения в пределах дороги
                 position_.y = new_coord;
             }
             else {
@@ -173,11 +173,11 @@ void Player::ChangeDogSpeed(const Direction& direction) {
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::NORTH) {
-        Speed speed{ 0.0f, speed_val};
+        Speed speed{ 0.0f, speed_val * -1.0f };
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::SOUTH) {
-        Speed speed{ 0.0f, speed_val * -1.0f };
+        Speed speed{ 0.0f, speed_val};
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::WEST) {
