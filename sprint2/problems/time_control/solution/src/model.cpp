@@ -152,12 +152,12 @@ void Dog::SetDogSpeed(Speed& new_speed) {
     else if (new_speed.vy > 0) {
         speed_.vx = 0.0f;
         speed_.vy = new_speed.vy;
-        direction_ = Direction::NORTH;
+        direction_ = Direction::SOUTH;
     }
     else if (new_speed.vy < 0) {
         speed_.vx = 0.0f;
         speed_.vy = new_speed.vy;
-        direction_ = Direction::SOUTH;
+        direction_ = Direction::NORTH;
     }
     else {
         speed_.vx = 0.0f;
@@ -173,7 +173,7 @@ void Player::ChangeDogSpeed(const Direction& direction) {
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::NORTH) {
-        Speed speed{ 0.0f, speed_val * -1.0f };
+        Speed speed{ 0.0f, speed_val  * -1.0f };
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::SOUTH) {
