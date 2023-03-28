@@ -93,10 +93,10 @@ void Dog::UpdateCoords(const int64_t& tick) {
         else {
             // проверка наличия перекрестка
             double val;
-            double dot_val = round(modf(position_.y, &val) * 10) / 10;
+            double dot_val = round(modf(position_.x, &val) * 10) / 10;
             int64_t pos;
             if (dot_val != 0.5) {                                 // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
-                pos = (dot_val < 0.4) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
+                pos = (dot_val <= 0.4) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
                 auto testBool = road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end();
                 if (road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end()) {
                     road_ = road_->GetCrossRoars().at(pos);
@@ -115,7 +115,7 @@ void Dog::UpdateCoords(const int64_t& tick) {
             double dot_val = round(modf(position_.y, &val) * 10) / 10;
             int64_t pos;
             if (dot_val != 0.5) {                                 // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
-                pos = (dot_val < 0.4) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
+                pos = (dot_val <= 0.4) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
                 auto testBool = road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end();
                 if (road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end()) {
                     road_ = road_->GetCrossRoars().at(pos);

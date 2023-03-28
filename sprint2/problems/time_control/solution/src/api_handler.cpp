@@ -170,7 +170,7 @@ namespace http_handler {
             try {
                 auto jsonValue = json::parse(body);
                 std::string direction = jsonValue.as_object().at(JsonField::MOVE).as_string().data();
-                auto player = game_.GetPlayerTokens().FindPlayerByToken(token);
+                auto &player = game_.GetPlayerTokens().FindPlayerByToken(token);
                 player.ChangeDogSpeed(static_cast<model::Direction> (model::DirectionInterpretator::DirectionStringToInt(direction)));
                 return Response::MakePlayerActionByToken();
             }
