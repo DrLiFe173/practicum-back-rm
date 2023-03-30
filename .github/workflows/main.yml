@@ -30,17 +30,6 @@ jobs:
         run: |
           cp -R /home/forconan/.conan /github/home/.conan
 
-      - name: build tests sprint2 time_control
-        run: |
-          cd sprint2/problems/time_control/solution
-          docker build -t time_control .
-      - name: run tests sprint2 time_control
-        run: pytest --junitxml=${GITHUB_WORKSPACE}/time_control.xml --workers auto cpp-backend-tests-practicum/tests/test_s02_time_control.py
-        env:
-          SERVER_DOMAIN: cppserver
-          CONFIG_PATH: ${{ github.workspace }}/sprint2/problems/time_control/solution/data/config.json
-          IMAGE_NAME: time_control
-
       - name: build tests sprint2 command_line
         run: |
           cd sprint2/problems/command_line/solution
