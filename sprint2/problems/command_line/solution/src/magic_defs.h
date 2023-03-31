@@ -21,7 +21,7 @@ struct GameDefs
     static inline const uint32_t TOKEN_SIZE                 = 32;
     static inline const uint32_t TOKEN_SIZE_BAD_GENERATION  = 31;
 
-    static inline const uint32_t ZERO_INT                   = 10;
+    static inline const uint32_t ZERO_INT                   = 0;
     static inline const uint32_t TEN                        = 10;
 
     static inline const double ROAD_OFFSET                  = 0.4;
