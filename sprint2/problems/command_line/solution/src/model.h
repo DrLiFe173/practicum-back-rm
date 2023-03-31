@@ -228,7 +228,7 @@ public:
 
     Dog(std::string& name, Road* road)
         :name_(name),
-        speed_({ 0.0f, 0.0f }),
+        speed_({ GameDefs::ZERO, GameDefs::ZERO }),
         direction_(Direction::NORTH),
         road_(road){
         SetStartPosition();
@@ -259,7 +259,7 @@ public:
     void UpdateCoords(const int64_t& tick);
 
     bool IsZeroSpeed() {
-        return ((speed_.vx == 0.0) && (speed_.vy == 0.0));
+        return ((speed_.vx == GameDefs::ZERO) && (speed_.vy == GameDefs::ZERO));
     }
 
 private:
@@ -355,8 +355,11 @@ public:
         auto i2 = generator2_();
         std::string result = (boost::format("%x") % i1).str();
         result.append((boost::format("%x") % i2).str());
-        if (result.size() == GameDefs::TOKEN_SIZE_BAD_GENERATION) {                          // если при генерации токена получаем строку в 31 символ - добавляем еще 1 чтобы получить 32
+        if (result.size() == (GameDefs::TOKEN_SIZE - GameDefs::ONE_INT)) {     // если при генерации токена получаем строку в 31 символ - добавляем еще 1 символа чтобы получить 32
                 result.append("0");
+        }
+        if (result.size() == (GameDefs::TOKEN_SIZE - GameDefs::TWO_INT)) {     // если при генерации токена получаем строку в 30 символ - добавляем еще 2 символа чтобы получить 32
+            result.append("00");                                        // редкий кейс генерации, когда оба генератора возвращают в сумме строку в 30 символов
         }
         return result;
     }

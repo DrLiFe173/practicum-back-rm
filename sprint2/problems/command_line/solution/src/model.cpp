@@ -144,7 +144,7 @@ void Dog::UpdateCoords(const int64_t& tick) {
         }
         else {                                                  // проверка наличия перекрестка
             double val;
-            double dot_val = round(modf(position_.x, &val) * GameDefs::TEN) / GameDefs::TEN;
+            double dot_val = round(modf(position_.x, &val) * GameDefs::TEN_INT) / GameDefs::TEN_INT;
             int64_t pos;
             if (dot_val != GameDefs::EMPTY_CROSSROAD) {                                 // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
                 pos = (dot_val <= GameDefs::ROAD_OFFSET) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
@@ -162,7 +162,7 @@ void Dog::UpdateCoords(const int64_t& tick) {
         }
         else {                                                   // проверка наличия перекрестка
             double val;
-            double dot_val = round(modf(position_.y, &val) * GameDefs::TEN) / GameDefs::TEN;
+            double dot_val = round(modf(position_.y, &val) * GameDefs::TEN_INT) / GameDefs::TEN_INT;
             int64_t pos;
             if (dot_val != GameDefs::EMPTY_CROSSROAD) {  // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
                 pos = (dot_val <= GameDefs::ROAD_OFFSET) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
