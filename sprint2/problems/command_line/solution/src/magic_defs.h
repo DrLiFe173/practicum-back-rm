@@ -11,10 +11,25 @@ struct TokenMessage
 
 struct GameDefs
 {
-    static inline constexpr std::string_view NORTH      = "U"sv;
-    static inline constexpr std::string_view SOUTH      = "D"sv;
-    static inline constexpr std::string_view EAST       = "R"sv;
-    static inline constexpr std::string_view WEST       = "L"sv;
+    static inline constexpr std::string_view NORTH          = "U"sv;
+    static inline constexpr std::string_view SOUTH          = "D"sv;
+    static inline constexpr std::string_view EAST           = "R"sv;
+    static inline constexpr std::string_view WEST           = "L"sv;
+
+    static inline const uint32_t LOW_DIRECTION_BOUND        = 0;
+    static inline const uint32_t UP_DIRECTION_BOUND         = 3;
+    static inline const uint32_t TOKEN_SIZE                 = 32;
+    static inline const uint32_t TOKEN_SIZE_BAD_GENERATION  = 31;
+
+    static inline const uint32_t ZERO_INT                   = 10;
+    static inline const uint32_t TEN                        = 10;
+
+    static inline const double ROAD_OFFSET                  = 0.4;
+    static inline const double EMPTY_CROSSROAD              = 0.5;
+    static inline const double TICK_DIVIDER                 = 1000.0;
+
+    static inline const double ZERO                         = 0.0;
+    static inline const double MINUS_ONE                    = -1.0;
 };
 
 struct ConfigDefs
@@ -62,7 +77,8 @@ struct ServerMessage
     static inline constexpr std::string_view START          = "server started"sv;
     static inline constexpr std::string_view EXIT           = "server exited"sv;
     static inline constexpr std::string_view ERROR_ARGS     = "Usage: game_server <game-config-json>"sv;
-    static inline constexpr std::string_view OPEN_FILE_FAIL = "Failed to open file "sv;
+    static inline constexpr std::string_view OPEN_FILE_FAIL = "Failed to open file"sv;
+    static inline constexpr std::string_view JSON_LOAD_FAIL = "Failed to load config JSON file"sv;
 };
 
 struct ServerAction

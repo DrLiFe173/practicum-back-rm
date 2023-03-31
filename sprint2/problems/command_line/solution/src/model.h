@@ -30,43 +30,9 @@ class DirectionInterpretator {
 public:
     DirectionInterpretator() = delete;
 
-    static std::string DirectionIntToString(int direction) {
-        std::string dir = "";
-        if (direction >= 0 && direction < 4) {
-            if (direction == Direction::NORTH) {
-                dir = GameDefs::NORTH;
-            }
-            else if (direction == Direction::SOUTH) {
-                dir = GameDefs::SOUTH;
-            }
-            else if (direction == Direction::EAST) {
-                dir = GameDefs::EAST;
-            }
-            else if (direction == Direction::WEST) {
-                dir = GameDefs::WEST;
-            }
-        }
-        return dir;
-    }
+    static std::string DirectionIntToString(int direction);
 
-    static int DirectionStringToInt(std::string& direction) {
-        int dir = Direction::UNKNOWN;
-        if (!direction.empty()) {
-            if (direction == GameDefs::NORTH) {
-                dir = Direction::NORTH;
-            }
-            else if (direction == GameDefs::SOUTH) {
-                dir = Direction::SOUTH;
-            }
-            else if (direction == GameDefs::EAST) {
-                dir = Direction::EAST;
-            }
-            else if (direction == GameDefs::WEST) {
-                dir = Direction::WEST;
-            }
-        }
-        return dir;
-    }
+    static int DirectionStringToInt(std::string& direction);
 };
 
 struct Speed {
@@ -96,11 +62,11 @@ struct Offset {
 
 class Road {
     struct HorizontalTag {
-        explicit HorizontalTag() = default;
+        HorizontalTag() = default;
     };
 
     struct VerticalTag {
-        explicit VerticalTag() = default;
+        VerticalTag() = default;
     };
 
 public:
@@ -389,7 +355,7 @@ public:
         auto i2 = generator2_();
         std::string result = (boost::format("%x") % i1).str();
         result.append((boost::format("%x") % i2).str());
-        if (result.size() == 31) {                          // если при генерации токена получаем строку в 31 символ - добавляем еще 1 чтобы получить 32
+        if (result.size() == GameDefs::TOKEN_SIZE_BAD_GENERATION) {                          // если при генерации токена получаем строку в 31 символ - добавляем еще 1 чтобы получить 32
                 result.append("0");
         }
         return result;

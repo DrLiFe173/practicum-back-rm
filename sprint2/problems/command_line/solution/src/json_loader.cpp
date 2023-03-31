@@ -76,6 +76,9 @@ void LoadGame(const std::filesystem::path& json_path, model::Game& game) {
             jsonString.append(strInput);
         }
     }
+    else {
+        throw std::runtime_error(ServerMessage::JSON_LOAD_FAIL.data());
+    }
     auto jsonValue = json::parse(jsonString);
 
     float default_speed;

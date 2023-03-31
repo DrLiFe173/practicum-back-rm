@@ -5,18 +5,55 @@
 namespace model {
 using namespace std::literals;
 
+std::string DirectionInterpretator::DirectionIntToString(int direction) {
+    std::string dir = "";
+    if (direction >= GameDefs::LOW_DIRECTION_BOUND && direction <= GameDefs::UP_DIRECTION_BOUND) {
+        if (direction == Direction::NORTH) {
+            dir = GameDefs::NORTH;
+        }
+        else if (direction == Direction::SOUTH) {
+            dir = GameDefs::SOUTH;
+        }
+        else if (direction == Direction::EAST) {
+            dir = GameDefs::EAST;
+        }
+        else if (direction == Direction::WEST) {
+            dir = GameDefs::WEST;
+        }
+    }
+    return dir;
+}
+
+int DirectionInterpretator::DirectionStringToInt(std::string& direction) {
+    int dir = Direction::UNKNOWN;
+    if (!direction.empty()) {
+        if (direction == GameDefs::NORTH) {
+            dir = Direction::NORTH;
+        }
+        else if (direction == GameDefs::SOUTH) {
+            dir = Direction::SOUTH;
+        }
+        else if (direction == GameDefs::EAST) {
+            dir = Direction::EAST;
+        }
+        else if (direction == GameDefs::WEST) {
+            dir = Direction::WEST;
+        }
+    }
+    return dir;
+}
+
+
 void Dog::MakeHorizontalMovement(const double& tick) {
     auto new_coord = position_.x + speed_.vx * tick;
     RealDimension x_pos_start, x_pos_end;
-    RealDimension offset = 0.4;
-
     if (road_->GetStart().x <= road_->GetEnd().x) {     // условие если дорога по координатам идет в обратную сторону
-        x_pos_start = road_->GetStart().x - offset;
-        x_pos_end = road_->GetEnd().x + offset;
+        x_pos_start = road_->GetStart().x - GameDefs::ROAD_OFFSET;
+        x_pos_end = road_->GetEnd().x + GameDefs::ROAD_OFFSET;
     }
     else {
-        x_pos_start = road_->GetEnd().x - offset;
-        x_pos_end = road_->GetStart().x + offset;
+        x_pos_start = road_->GetEnd().x - GameDefs::ROAD_OFFSET;
+        x_pos_end = road_->GetStart().x + GameDefs::ROAD_OFFSET;
     }
 
     if (direction_ == Direction::WEST) {
@@ -26,12 +63,12 @@ void Dog::MakeHorizontalMovement(const double& tick) {
             }
             else {
                 position_.x = x_pos_start;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
+                Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
                 SetDogSpeed(zero_speed);
             }
         }
         else {
-            Speed zero_speed = Speed{ 0.0, 0.0 };
+            Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
             SetDogSpeed(zero_speed);
         }
     }
@@ -42,12 +79,12 @@ void Dog::MakeHorizontalMovement(const double& tick) {
             }
             else {
                 position_.x = x_pos_end;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
+                Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
                 SetDogSpeed(zero_speed);
             }
         }
         else {
-            Speed zero_speed = Speed{ 0.0, 0.0 };
+            Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
             SetDogSpeed(zero_speed);
         }
     }
@@ -56,15 +93,13 @@ void Dog::MakeHorizontalMovement(const double& tick) {
 void Dog::MakeVerticalMovement(const double& tick) {
     auto new_coord = position_.y + speed_.vy * tick;
     RealDimension y_pos_start, y_pos_end;
-    const RealDimension offset = 0.4;
-
     if (road_->GetStart().y <= road_->GetEnd().y) {     // условие если дорога по координатам идет в обратную сторону
-        y_pos_start = road_->GetStart().y - offset;
-        y_pos_end = road_->GetEnd().y + offset;
+        y_pos_start = road_->GetStart().y - GameDefs::ROAD_OFFSET;
+        y_pos_end = road_->GetEnd().y + GameDefs::ROAD_OFFSET;
     }
     else {
-        y_pos_start = road_->GetEnd().y - offset;
-        y_pos_end = road_->GetStart().y + offset;
+        y_pos_start = road_->GetEnd().y - GameDefs::ROAD_OFFSET;
+        y_pos_end = road_->GetStart().y + GameDefs::ROAD_OFFSET;
     }
 
     if (direction_ == Direction::NORTH) {
@@ -74,12 +109,12 @@ void Dog::MakeVerticalMovement(const double& tick) {
             }
             else {
                 position_.y = y_pos_start;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
+                Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
                 SetDogSpeed(zero_speed);
             }
         }
         else {
-            Speed zero_speed = Speed{ 0.0, 0.0 };
+            Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
             SetDogSpeed(zero_speed);
         }
     }
@@ -90,30 +125,29 @@ void Dog::MakeVerticalMovement(const double& tick) {
             }
             else {
                 position_.y = y_pos_end;
-                Speed zero_speed = Speed{ 0.0, 0.0 };
+                Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
                 SetDogSpeed(zero_speed);
             }
         }
         else {
-            Speed zero_speed = Speed{ 0.0, 0.0 };
+            Speed zero_speed = Speed{ GameDefs::ZERO, GameDefs::ZERO };
             SetDogSpeed(zero_speed);
         }
     }
 }
 
 void Dog::UpdateCoords(const int64_t& tick) {
-    double tick_d = tick / 1000.0;
+    double tick_d = tick / GameDefs::TICK_DIVIDER;
     if (direction_ == Direction::NORTH || direction_ == Direction::SOUTH) {
         if (road_->IsVertical()) {                              // проверить соосность направления скорости с дорогой
             MakeVerticalMovement(tick_d);
         }
-        else {
-            // проверка наличия перекрестка
+        else {                                                  // проверка наличия перекрестка
             double val;
-            double dot_val = round(modf(position_.x, &val) * 10) / 10;
+            double dot_val = round(modf(position_.x, &val) * GameDefs::TEN) / GameDefs::TEN;
             int64_t pos;
-            if (dot_val != 0.5) {                                 // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
-                pos = (dot_val <= 0.4) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
+            if (dot_val != GameDefs::EMPTY_CROSSROAD) {                                 // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
+                pos = (dot_val <= GameDefs::ROAD_OFFSET) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
                 auto testBool = road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end();
                 if (road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end()) {
                     road_ = road_->GetCrossRoars().at(pos);
@@ -126,13 +160,12 @@ void Dog::UpdateCoords(const int64_t& tick) {
         if (road_->IsHorizontal()) {                              // проверить соосность направления скорости с дорогой
             MakeHorizontalMovement(tick_d);
         }
-        else {
-            // проверка наличия перекрестка
+        else {                                                   // проверка наличия перекрестка
             double val;
-            double dot_val = round(modf(position_.y, &val) * 10) / 10;
+            double dot_val = round(modf(position_.y, &val) * GameDefs::TEN) / GameDefs::TEN;
             int64_t pos;
-            if (dot_val != 0.5) {                                 // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
-                pos = (dot_val <= 0.4) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
+            if (dot_val != GameDefs::EMPTY_CROSSROAD) {  // т.к. дорога имеет ширину +- 0,4 от числа координаты, то при значении 0,5 игрок точно не войдет на перекресток
+                pos = (dot_val <= GameDefs::ROAD_OFFSET) ? static_cast<int64_t>(val) : static_cast<int64_t>(val + 1);
                 auto testBool = road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end();
                 if (road_->GetCrossRoars().find(pos) != road_->GetCrossRoars().end()) {
                     road_ = road_->GetCrossRoars().at(pos);
@@ -169,52 +202,52 @@ void Dog::SetStartPosition() {
 }
 
 void Dog::SetDogSpeed(Speed& new_speed) {
-    if (new_speed.vx > 0) {
+    if (new_speed.vx > GameDefs::ZERO) {
         speed_.vx = new_speed.vx;
-        speed_.vy = 0.0;
+        speed_.vy = GameDefs::ZERO;
         direction_ = Direction::EAST;
     }
-    else if (new_speed.vx < 0) {
+    else if (new_speed.vx < GameDefs::ZERO) {
         speed_.vx = new_speed.vx;
-        speed_.vy = 0.0;
+        speed_.vy = GameDefs::ZERO;
         direction_ = Direction::WEST;
     }
-    else if (new_speed.vy > 0) {
-        speed_.vx = 0.0;
+    else if (new_speed.vy > GameDefs::ZERO) {
+        speed_.vx = GameDefs::ZERO;
         speed_.vy = new_speed.vy;
         direction_ = Direction::SOUTH;
     }
-    else if (new_speed.vy < 0) {
-        speed_.vx = 0.0;
+    else if (new_speed.vy < GameDefs::ZERO) {
+        speed_.vx = GameDefs::ZERO;
         speed_.vy = new_speed.vy;
         direction_ = Direction::NORTH;
     }
     else {
-        speed_.vx = 0.0;
-        speed_.vy = 0.0;
+        speed_.vx = GameDefs::ZERO;
+        speed_.vy = GameDefs::ZERO;
     }
 }
 
 void Player::ChangeDogSpeed(const Direction& direction) {
     auto speed_val = sesion_->GetMapFromSession()->GetMapSpeed();
     if (direction == Direction::UNKNOWN) {
-        Speed speed{ 0.0, 0.0 };
+        Speed speed{ GameDefs::ZERO, GameDefs::ZERO };
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::NORTH) {
-        Speed speed{ 0.0, speed_val  * -1.0 };
+        Speed speed{ GameDefs::ZERO, speed_val  * GameDefs::MINUS_ONE };
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::SOUTH) {
-        Speed speed{ 0.0, speed_val};
+        Speed speed{ GameDefs::ZERO, speed_val};
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::WEST) {
-        Speed speed{ speed_val * -1.0, 0.0 };
+        Speed speed{ speed_val * GameDefs::MINUS_ONE, GameDefs::ZERO };
         dog_.SetDogSpeed(speed);
     }
     else if (direction == Direction::EAST) {
-        Speed speed{ speed_val , 0.0 };
+        Speed speed{ speed_val , GameDefs::ZERO };
         dog_.SetDogSpeed(speed);
     }
 }
@@ -285,12 +318,12 @@ void Map::SetCrossroads() {
 }
 
 Road* Map::GetStartRoad() {
-    int road_num = 0;                                                               // Выставляем 0ю дорогу
+    int road_num = GameDefs::ZERO_INT;                                              // Выставляем 0ю дорогу
     if (Game::IsRandomSpawnEnabled()) {                                             // Если игра запущена с флагом --randomize-spawn-points
         size_t size = roads_.size();                                                // то случайно выбираем любую из имеющихся дорог
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(0, static_cast<int>(size));
+        std::uniform_int_distribution<> distrib(GameDefs::ZERO_INT, static_cast<int>(size));
         int road_num = distrib(gen);
     }
     return &(roads_.at(road_num));

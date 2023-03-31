@@ -45,8 +45,6 @@ public:
 
     std::filesystem::path GetFilePath(const std::string& requestTarget);
 
-    std::string GetFileName(const std::filesystem::path& file_path);
-
     VarResponse ProceedFileResponse(const std::string requestTarget, unsigned http_version, bool isKeepAlive);    
 
     bool IsInFileRootFolder(const std::filesystem::path& file_path);

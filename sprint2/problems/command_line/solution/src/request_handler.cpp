@@ -26,11 +26,6 @@ namespace http_handler {
         return response;
     }
 
-    std::string RequestHandler::GetFileName(const std::filesystem::path& file_path) {        
-        auto file_name = file_path.filename();
-        return file_name.string();
-    }
-
     std::filesystem::path RequestHandler::GetFilePath(const std::string& requestTarget) {
 
         auto base_path = std::filesystem::weakly_canonical(fileRootFolder);

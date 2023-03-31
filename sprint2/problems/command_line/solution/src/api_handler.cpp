@@ -7,7 +7,7 @@ namespace http_handler {
         if (!request.empty() && request.starts_with(TokenMessage::BEARER)) {
             std::string tokenTmp{ request };
             std::string token = tokenTmp.substr(TokenMessage::BEARER.size());
-            if (!token.empty() && token.size() == 32) {
+            if (!token.empty() && token.size() == GameDefs::TOKEN_SIZE) {
                 return token;
             }  
             else {
