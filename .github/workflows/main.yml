@@ -29,6 +29,27 @@ jobs:
       - name: Install dependencies
         run: |
           cp -R /home/forconan/.conan /github/home/.conan
+
+      - name: build tests sprint1 map_json
+        run: |
+          cd sprint1/problems/map_json/solution
+          mkdir build
+          cd build
+          conan install ..
+          cmake ..
+          cmake --build .
+          echo "COMMAND_RUN=${DELIVERY_APP} ${CONFIG_PATH}" >> $GITHUB_ENV
+        env:
+          DELIVERY_APP: ${{ github.workspace }}/sprint1/problems/map_json/solution/build/bin/game_server
+          CONFIG_PATH: ${{ github.workspace }}/sprint1/problems/map_json/solution/data/config.json
+
+      - name: Save map_json binary
+        uses: actions/upload-artifact@v3
+        with:
+          name: game_server
+          path: ${{ github.workspace }}/sprint1/problems/map_json/solution/build/bin/game_server
+          retention-days: 1
+
       - name: Publish XML reports
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
@@ -56,17 +77,6 @@ jobs:
         with:
           repository: 'cpppracticum/cpp-backend-tests-practicum'
           path: 'cpp-backend-tests-practicum'
-
-      - name: build tests sprint3 instrumentation
-        run: |
-          cd sprint3/problems/instrumentation/solution
-          g++ -O3 *.cpp -o event2dot
-      - name: run tests sprint3 instrumentation
-        run: pytest --junitxml=${GITHUB_WORKSPACE}/instrumentation.xml cpp-backend-tests-practicum/tests/test_s03_instrumentation.py
-        env:
-          REPORT_PATH: ${{ github.workspace }}/sprint3/problems/instrumentation/solution/report
-          BINARY_PATH: ${{ github.workspace }}/sprint3/problems/instrumentation/solution/event2dot
-          ARG: ${{ github.workspace }}/sprint3/problems/instrumentation/solution/inputs
 
       - name: Load map_json binary
         uses: actions/download-artifact@v3
